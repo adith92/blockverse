@@ -18,6 +18,7 @@
     "dev:unified": "npm run build && npm start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "7.3.1",
     "firebase": "13.0.0",
     "three": "0.186.1"
   },
