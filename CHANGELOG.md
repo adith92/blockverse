@@ -8,6 +8,7 @@
 - Added four rendered model previews and illustrated kid-friendly README.
 - Added server validation unit suite, deployment guidance and production limitations.
 - Enforced patched @grpc/grpc-js@1.14.6 via npm overrides after CI detected upstream vulnerabilities.
+- Raised VPS ws dependency to 8.22.0 to address disclosed memory DoS and data leak advisories.
 - Not yet confirmed: live VPS deployment, end-to-end multiplayer across networks, anti-cheat, verified rewards, compliance for public child-directed release.
 
 ## v1.1.0 — Secure Migration Candidate
