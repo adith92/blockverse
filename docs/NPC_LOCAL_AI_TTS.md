@@ -84,3 +84,17 @@ Buka http://127.0.0.1:3001, main Cengkareng, dekatkan avatar ke NPC, tekan N. Di
 ## Sumber Context7
 - Ollama `/ollama/ollama`, `POST /api/chat`, `stream:false`
 - Piper `/ohf-voice/piper1-gpl`, CLI `-m ... -f ... -- 'text'`
+
+## Docker Compose ops (VPS only)
+`infra/docker-compose.yml` provides an **opt-in internal Ollama service** via Docker profile `ai`.
+```bash
+cd infra
+cp .env.example .env
+# Edit ALLOWED_ORIGINS and MULTIPLAYER_DOMAIN for your HTTPS game domain.
+docker compose --profile ai up -d --build
+# Download the desired local model (not bundled):
+docker compose exec ollama ollama pull qwen3:4b
+# Enable AI by setting NPC_LLM_ENABLED=1 in .env; recreate multiplayer container.
+docker compose --profile ai up -d --force-recreate multiplayer
+```
+**Do not run this on Render Free** without capacity checks. Ollama has no public published port in this Compose stack. The Docker build bundles frontend, WebSocket and NPC API into one service. Piper voice in Docker requires a separate compatible installation, container runtime or a later reviewed IPC integration; for now use direct VPS host installation for TTS. Never enable `NPC_TTS_ENABLED=1` on an image lacking Piper and voice models.
