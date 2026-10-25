@@ -2,6 +2,7 @@ import http from 'node:http';
 import {WebSocketServer, WebSocket} from 'ws';
 import {randomUUID} from 'node:crypto';
 import {createNpcApi} from './npc-ai.mjs';
+import {createQuizApi} from './education-quiz.mjs';
 import {createReadStream,existsSync,statSync} from 'node:fs';
 import {resolve,sep,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -17,8 +18,10 @@ const rooms = new Map();
 const connectionsByIp = new Map();
 const startedAt=Date.now();
 const npcApi=createNpcApi();
+const quizApi=createQuizApi();
 const server=http.createServer(async (req,res)=>{
   if(await npcApi(req,res,allowedOrigins))return;
+  if(await quizApi(req,res,allowedOrigins))return;
   if (req.url === '/healthz' || req.url === '/readyz'){
     res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});
     res.end(JSON.stringify({ok:true,service:'blockverse-multiplayer',uptimeSeconds:Math.floor((Date.now()-startedAt)/1000),rooms:rooms.size}));return;

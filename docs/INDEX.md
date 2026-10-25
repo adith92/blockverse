@@ -8,6 +8,7 @@ Semua konten **untuk dibaca manusia** berada di folder `docs/`; root hanya beris
 | [NPC_LOCAL_AI_TTS.md](NPC_LOCAL_AI_TTS.md) | 👩‍🏫 13 guru virtual, Ollama LLM, Piper WAV TTS, konfigurasi VPS |
 | [NPC_SAFETY.md](NPC_SAFETY.md) | 🛡️ Keselamatan, privasi anak, moderation dan batasan |
 | [UPGRADE_ROADMAP.md](UPGRADE_ROADMAP.md) | 🧩 Ide upgrade berikutnya dan prioritas |
+| [ROADMAP_RELEASE_STATUS_2026-10-25.md](ROADMAP_RELEASE_STATUS_2026-10-25.md) | ✅ Yang benar-benar selesai, tertunda dan release gates |
 | [DEPLOYMENT.md](DEPLOYMENT.md) | 🚀 Operasi, server, staging dan rollback |
 | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) | ✅ Gate kelulusan produksi |
 | [SECURITY.md](SECURITY.md) | 🔐 Kebijakan dan laporan keamanan |
