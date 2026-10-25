@@ -2,7 +2,7 @@
 <html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>BLOCKVERSE — Build it. Play it. Together.</title>
   <!-- Font Awesome for clean game & tool icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -255,6 +255,7 @@
         <button id="btn-touch-sprint" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvCyan text-bvCyan font-display font-bold text-xs active:scale-95">LARI</button>
         <button id="btn-touch-interact" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvSun text-bvSun font-display font-bold text-sm active:scale-95">E</button>
       </div>
+      <button id="btn-touch-emote" aria-label="Emote" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvGrass text-bvGrass font-bold pointer-events-auto">👋</button>
       <button id="btn-touch-jump" class="w-16 h-16 rounded-2xl bg-bvSky text-bvNavy font-display font-bold text-sm shadow-lg active:scale-95">LOMPAT</button>
     </div>
   </div>
@@ -280,7 +281,7 @@
         <div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-bvSky/15 blur-2xl pointer-events-none"></div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bvSun/15 border border-bvSun/40 text-bvSun text-xs font-bold mb-4">
           <i class="fa-solid fa-cubes-stacked"></i>
-          <span>ORIGINAL 3D SOCIAL SANDBOX • v1.0 MVP</span>
+          <span>ORIGINAL 3D SOCIAL SANDBOX • v2.0 EXPLORE</span>
         </div>
 
         <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight text-white mb-2">
@@ -457,6 +458,16 @@
           <button data-enter-world="builder" class="bv-btn w-full py-2.5 rounded-xl bg-bvCyan text-bvNavy font-display font-bold text-sm">
             Buka Builder Island Saya
           </button>
+        </div>
+
+        <!-- World 5: Cengkareng expanded open world; map is fictionalized. -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvSky/45 flex flex-col justify-between">
+          <div>
+            <span class="px-2 py-1 rounded-full bg-bvSky/20 text-bvSky text-xs font-bold">🗺️ OPEN WORLD • 12 DISTRIK</span>
+            <h3 class="font-display font-bold text-lg text-white mt-3 mb-2">5. Jakarta Barat — Cengkareng Explorer</h3>
+            <p class="text-xs text-slate-300 mb-3">Jelajahi dunia fiksi terinspirasi Cengkareng Timur, Kali Apuran, Daan Mogot, kampung, pasar, taman dan koridor kota. 125 model 3D orisinal dengan mini-map dan fast travel.</p>
+          </div>
+          <button data-enter-world="cengkareng" class="bv-btn w-full py-3 rounded-xl bg-bvSky text-bvNavy font-display font-bold text-sm">🌏 Jelajahi Cengkareng</button>
         </div>
 
         <!-- World 4: Coin Dash (P1 Bonus Mini-game) -->

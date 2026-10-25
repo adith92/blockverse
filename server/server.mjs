@@ -1,11 +1,16 @@
 import http from 'node:http';
 import {WebSocketServer, WebSocket} from 'ws';
 import {randomUUID} from 'node:crypto';
+import {createReadStream,existsSync,statSync} from 'node:fs';
+import {resolve,sep,extname,join as joinPath} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {MAX_PLAYERS,ALLOWED_WORLDS,ALLOWED_EMOTES,roomId,displayName,avatar,position,rotation,originAllowed} from './validation.mjs';
 
 const port = Number(process.env.PORT || 3001);
 if(!Number.isInteger(port)||port<1||port>65535) throw new Error('Invalid PORT');
 const allowedOrigins = (process.env.ALLOWED_ORIGINS||'http://localhost:5173,http://localhost:4173').split(',').map(x=>x.trim()).filter(Boolean);
+const siteRoot=resolve(process.env.STATIC_ROOT||fileURLToPath(new URL('../dist/',import.meta.url)));
+const MIME={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.glb':'model/gltf-binary','.gltf':'model/gltf+json','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2','.ico':'image/x-icon'};
 if(!allowedOrigins.length) throw new Error('ALLOWED_ORIGINS must not be empty');
 const rooms = new Map();
 const connectionsByIp = new Map();
@@ -15,7 +20,21 @@ const server=http.createServer((req,res)=>{
     res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});
     res.end(JSON.stringify({ok:true,service:'blockverse-multiplayer',uptimeSeconds:Math.floor((Date.now()-startedAt)/1000),rooms:rooms.size}));return;
   }
-  res.writeHead(404,{'Content-Type':'application/json'});res.end('{"error":"not_found"}');
+  if (req.method !== 'GET' && req.method !== 'HEAD'){res.writeHead(405);res.end();return;}
+  let pathname;try{pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);}catch{res.writeHead(400);res.end();return;}
+  if(pathname.includes('\0')||pathname.split('/').includes('..')){res.writeHead(403);res.end();return;}
+  let path=resolve(siteRoot,'.'+(pathname==='/'?'/index.html':pathname));
+  if(path!==siteRoot && !path.startsWith(siteRoot+sep)){res.writeHead(403);res.end();return;}
+  if(!existsSync(path)||!statSync(path).isFile()){
+    if(pathname.startsWith('/assets/')){res.writeHead(404);res.end();return;}
+    path=joinPath(siteRoot,'index.html');
+  }
+  if(!existsSync(path)){res.writeHead(503,{'Content-Type':'text/plain'});res.end('Frontend build unavailable');return;}
+  const ext=extname(path).toLowerCase();
+  res.writeHead(200,{'Content-Type':MIME[ext]||'application/octet-stream','X-Content-Type-Options':'nosniff',
+    'Cache-Control':ext==='.html'?'no-store':'public, max-age=3600'});
+  if(req.method==='HEAD'){res.end();return;}
+  createReadStream(path).on('error',()=>res.destroy()).pipe(res);
 });
 const wss=new WebSocketServer({noServer:true,maxPayload:2048,perMessageDeflate:false});
 function send(ws,event,data={}){if(ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({event,...data}));}

@@ -1,0 +1,17 @@
+# V2 experimental unified Render service, built from this branch after review.
+# Does NOT mutate the existing v1 separated services until explicitly approved.
+services:
+  - type: web
+    name: blockverse-unified-v2
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm install --no-fund && npm run build && npm --prefix server install --omit=dev --no-fund
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: false
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: https://blockverse-unified-v2.onrender.com

@@ -5,11 +5,13 @@ import { getAuth, signInAnonymously, signInWithCustomToken } from 'firebase/auth
 import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, deleteDoc, runTransaction } from 'firebase/firestore';
 import { Validator, MAX_WORLD_OBJECTS, ALLOWED_OBJECT_TYPES, ALLOWED_ACCESSORIES, escapeHtml } from './schema.mjs';
 import './styles.css';
+import './mobile.css';
+import { CengkarengExploration, makeCengkarengMapUI } from './world/cengkareng.js';
 
 // VITE_ variables are PUBLIC configuration, NEVER backend secrets.
 const __app_id = import.meta.env.VITE_APP_ID || 'blockverse-mvp-app';
 const __firebase_config = import.meta.env.VITE_FIREBASE_CONFIG || null;
-const __vps_multiplayer_url = import.meta.env.VITE_MULTIPLAYER_URL || '';
+const __vps_multiplayer_url = import.meta.env.VITE_MULTIPLAYER_URL || (import.meta.env.PROD ? `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/ws` : '');
 const __initial_auth_token = null; // Never bundle privileged/custom Firebase auth tokens.
 
 /********************************************************************
@@ -955,11 +957,12 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
     scene.background = new THREE.Color(0x87CEEB);
     scene.fog = new THREE.FogExp2(0x87CEEB, 0.0065);
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 400);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1100);
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
+    const touchDevice = matchMedia('(pointer: coarse)').matches;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, touchDevice ? 1.3 : 2));
+    renderer.shadowMap.enabled = !touchDevice;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
@@ -970,8 +973,8 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
     const sunLight = new THREE.DirectionalLight(0xFFF6E0, 0.92);
     sunLight.position.set(45, 75, 40);
     sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 2048;
-    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.mapSize.width = touchDevice ? 512 : 2048;
+    sunLight.shadow.mapSize.height = touchDevice ? 512 : 2048;
     sunLight.shadow.camera.near = 5;
     sunLight.shadow.camera.far = 220;
     const d = 75;
@@ -990,7 +993,9 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
     scene.add(playerRig.group);
 
     // Physics & Gameplay State
-    let currentWorldName = 'hub'; // 'hub' | 'obby' | 'builder' | 'coindash'
+    let currentWorldName = 'hub'; // 'hub' | 'obby' | 'builder' | 'coindash' | 'cengkareng'
+    let explorer = null;
+    let explorerUIRelease = null;
     let gameState = 'menu'; // 'menu' | 'playing' | 'paused' | 'results'
     let builderSubMode = 'edit'; // 'edit' | 'test'
 
@@ -1166,6 +1171,8 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
      * 8. BUILD THE 4 WORLDS: HUB, SKY OBBY (15 OBSTACLES), BUILDER ISLAND, COIN DASH
      ********************************************************************/
     function clearWorldScene() {
+      if (explorer) { explorer.dispose(); explorer = null; }
+      if (explorerUIRelease) { explorerUIRelease(); explorerUIRelease = null; }
       while (worldGroup.children.length > 0) {
         worldGroup.remove(worldGroup.children[0]);
       }
@@ -1255,6 +1262,22 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         builderHud.classList.add('flex');
         buildBuilderIslandScene();
         playerPhys.spawnPos.set(0, 1.2, 18);
+      } else if (worldName === 'cengkareng') {
+        scene.background = new THREE.Color(0xb7e3eb);
+        scene.fog = new THREE.FogExp2(0xb7e3eb, 0.0022);
+        roomBadge.textContent = '🗺️ Cengkareng Explorer';
+        addBoxPlatform(0,-.18,0,1440,.35,1100,'#78ba86');
+        explorer = new CengkarengExploration(worldGroup);
+        playerPhys.spawnPos.set(160,1.2,20);
+        explorerUIRelease = makeCengkarengMapUI({
+          getPlayer: () => playerPhys.pos,
+          onTravel: (district) => {
+            if (!district){loadWorld('hub');return;}
+            playerPhys.spawnPos.set(district.cx,1.2,district.cz+20);
+            respawnPlayer(false);
+            showToast(`📍 ${district.name}`, 'sky');
+          }
+        });
       } else if (worldName === 'coindash') {
         scene.background = new THREE.Color(0x4facfe);
         scene.fog = new THREE.FogExp2(0x4facfe, 0.005);
@@ -1269,6 +1292,11 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
 
       decorateWorldWithGeneratedAssets(worldName);
       respawnPlayer(false);
+      if (worldName === 'cengkareng' && explorer) {
+        explorer.initialize().then(({assetCount,districts}) => {
+          if (currentWorldName === 'cengkareng') showToast(`🗺️ ${districts} distrik & ${assetCount} asset GLB siap dijelajahi!`, 'grass');
+        }).catch(err => console.warn('Cengkareng world asset load failed',err));
+      }
       mpManager.joinRoom(document.getElementById('input-room-code').value || 'HUB-1', worldName);
 
       const elapsedLoad = Math.round(performance.now() - loadStart);
@@ -1299,6 +1327,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       addPortalArch(-9, 0.2, -13, '#FFCB47', 'SKY OBBY CHALLENGE', '15 Rintangan • 3 Checkpoint • +50 ★', 'obby');
       addPortalArch(0, 0.2, -15, '#3DD6D0', 'MY BUILDER ISLAND', 'Bangun & Simpan Duniamu Sendiri', 'builder');
       addPortalArch(9, 0.2, -13, '#6FCF97', 'COIN DASH ARENA', 'Kumpulkan 12 Koin Bintang Secepatnya!', 'coindash');
+      addPortalArch(23,0.2,-13,'#A78BFA','JAKARTA BARAT EXPLORER','12 Distrik • 125 Asset 3D • Cengkareng','cengkareng');
 
       // Decorative Stepping Platforms around Plaza
       addBoxPlatform(-14, 0.8, 4, 4, 1.2, 4, '#4CC9F0');
@@ -1928,6 +1957,22 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
     });
 
+    // Touch look: swipe the canvas to orbit camera (joystick buttons remain separate).
+    let touchLookId = null, touchLookX=0, touchLookY=0;
+    renderer.domElement.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'touch' || touchLookId!==null) return;
+      touchLookId=e.pointerId;touchLookX=e.clientX;touchLookY=e.clientY;
+      renderer.domElement.setPointerCapture(e.pointerId);
+    });
+    renderer.domElement.addEventListener('pointermove',e=>{
+      if(e.pointerId!==touchLookId || gameState!=='playing') return;
+      const dx=e.clientX-touchLookX,dy=e.clientY-touchLookY;touchLookX=e.clientX;touchLookY=e.clientY;
+      const sens=.006*camState.sensitivity;camState.yaw-=dx*sens;
+      camState.pitch=Math.max(.08,Math.min(1.35,camState.pitch+dy*sens*(camState.invertY?-1:1)));
+    });
+    const releaseLook=e=>{if(e.pointerId===touchLookId)touchLookId=null;};
+    renderer.domElement.addEventListener('pointerup',releaseLook);
+    renderer.domElement.addEventListener('pointercancel',releaseLook);
     renderer.domElement.addEventListener('wheel', (e) => {
       camState.distance = Math.max(4, Math.min(22, camState.distance + e.deltaY * 0.01));
     }, { passive: true });
@@ -2849,7 +2894,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         }
       });
 
-      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isTouch = touchDevice || navigator.maxTouchPoints > 0;
       if (isTouch) {
         const tc = document.getElementById('touch-controls');
         tc.classList.remove('hidden');
@@ -2893,6 +2938,12 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       document.getElementById('btn-touch-jump').addEventListener('pointerdown', () => { touchInput.jumpPressed = true; });
       document.getElementById('btn-touch-sprint').addEventListener('pointerdown', () => { touchInput.sprint = !touchInput.sprint; });
       document.getElementById('btn-touch-interact').addEventListener('pointerdown', () => triggerNearestPortalInteraction());
+      const emoteTouch=document.getElementById('btn-touch-emote');
+      if(emoteTouch)emoteTouch.addEventListener('pointerdown',()=>document.getElementById('emote-wheel-modal').classList.toggle('hidden'));
+      if (touchDevice) {
+        // Avoid desktop-quality shadow maps on low-memory handheld devices.
+        renderer.shadowMap.enabled=false;
+      }
 
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -2920,6 +2971,12 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       if (now - fpsTimer >= 500) {
         const fps = Math.round((frameCounter * 1000) / (now - fpsTimer));
         document.getElementById('stat-fps').textContent = String(fps);
+        // Adaptive WebGL resolution on mobile, with a 5-second cooldown to avoid oscillation.
+        if (touchDevice && now - (window.__lastRenderQualityAdjust || 0) > 5000) {
+          const currentRatio = renderer.getPixelRatio();
+          if (fps < 23 && currentRatio > .8) { renderer.setPixelRatio(Math.max(.8,currentRatio-.15));window.__lastRenderQualityAdjust=now; }
+          else if (fps > 52 && currentRatio < Math.min(devicePixelRatio,1.3)) {renderer.setPixelRatio(Math.min(devicePixelRatio,1.3,currentRatio+.1));window.__lastRenderQualityAdjust=now;}
+        }
         frameCounter = 0;
         fpsTimer = now;
       }
@@ -2951,6 +3008,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         camera.lookAt(0, 2, 0);
       }
 
+      if (currentWorldName === 'cengkareng' && explorer) explorer.update(playerPhys.pos,now);
       mpManager.updateInterpolations(dt, now);
       renderProjectedLabels(now);
       renderer.render(scene, camera);

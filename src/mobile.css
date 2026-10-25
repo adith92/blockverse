@@ -1,0 +1,25 @@
+/* Progressive enhancement for phones/tablets and foldables: no intrusive zoom lock. */
+html,body,#game-canvas-container {touch-action:pan-x pan-y;overscroll-behavior:none;}
+#game-canvas-container canvas {touch-action:none;}
+#touch-controls {bottom:max(12px,env(safe-area-inset-bottom));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));}
+#touch-controls button {touch-action:manipulation;min-width:48px;min-height:48px;}
+#jakarta-world-panel {position:fixed;top:max(64px,env(safe-area-inset-top) + 52px);right:max(10px,env(safe-area-inset-right));z-index:21;width:min(280px,46vw);border-radius:18px;border:2px solid #3dd6d066;background:#14213de8;color:#fff;box-shadow:0 14px 35px #050d1e88;padding:12px;backdrop-filter:blur(12px);}
+.bv-city-header {display:flex;justify-content:space-between;gap:8px;align-items:start;}
+.bv-city-header strong {font-size:13px;color:#f8d47b;display:block;}
+.bv-city-header small {font-size:10px;color:#b7d9ea;display:block;}
+.bv-city-header button {background:#415a77;color:#fff;padding:3px 10px;border-radius:7px;}
+#bv-city-minimap {display:block;max-width:100%;height:auto;margin:8px auto;border:1px solid #607f8e;border-radius:8px;}
+#bv-current-district {font-size:12px;font-weight:700;padding:4px 0;color:#ffde94;}
+.bv-city-actions {display:flex;gap:6px;}
+.bv-city-actions button,.bv-city-districts button {border-radius:8px;padding:7px 8px;background:#344b70;color:#fff;font-weight:700;font-size:10px;}
+.bv-city-actions button {flex:1;}
+.bv-city-districts {display:none;max-height:160px;overflow:auto;grid-template-columns:1fr 1fr;gap:5px;padding-top:8px;}
+.bv-map-expanded .bv-city-districts {display:grid;}
+.bv-city-districts button {text-align:left;font-weight:500;}
+.bv-city-districts button:focus-visible,.bv-city-actions button:focus-visible {outline:2px solid #f4cb58;}
+.bv-map-disclaimer {display:block;color:#adc6d5;font-size:9px;margin-top:8px;}
+.bv-map-collapsed #bv-city-minimap,.bv-map-collapsed #bv-current-district,.bv-map-collapsed .bv-city-actions,.bv-map-collapsed .bv-city-districts,.bv-map-collapsed .bv-map-disclaimer {display:none!important;}
+@media(max-width:900px){#hud-topbar{top:max(4px,env(safe-area-inset-top));left:6px;right:6px;gap:4px;}#hud-topbar .bv-panel {padding:6px 8px;}#jakarta-world-panel{top:max(66px,env(safe-area-inset-top) + 62px);right:7px;width:min(210px,47vw);padding:8px;}#touch-controls{inset-inline:10px;}#joystick-zone{width:110px;height:110px;}#builder-hud{max-width:100%;overflow-x:auto;scrollbar-width:thin;}}
+@media(max-width:500px){#jakarta-world-panel{width:166px;}#bv-city-minimap{width:140px;}#jakarta-world-panel:has(.bv-map-expanded) {max-height:64vh;overflow-y:auto;}#touch-controls button{font-size:11px;}#screen-home .bv-panel{padding:14px!important;}#modal-worlds .bv-panel{padding:14px!important;}#hud-topbar .bv-panel{font-size:10px;}}
+@media(orientation:portrait) and (max-width:650px){#touch-controls{bottom:max(20px,env(safe-area-inset-bottom));}#joystick-zone{width:112px;height:112px;}#hud-controls-hint{display:none!important;}}
+@media(prefers-reduced-motion:reduce){.bv-btn{transition:none!important;}}

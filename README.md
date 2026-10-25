@@ -171,3 +171,27 @@ blockverse/
 **BLOCKVERSE adalah proyek game orisinal independen dan tidak berafiliasi dengan Roblox.** Semua desain aset dibuat baru untuk proyek ini. Hak pakai aset pihak ketiga, lisensi dependency, dan keamanan hosting tetap perlu ditinjau sebelum rilis publik.
 
 <div align="center"><b>🌈 BUILD IT. PLAY IT. TOGETHER. 🌈</b></div>
+
+---
+
+## 🗺️ V2 experimental Cengkareng Explorer (feature branch only)
+
+🚧 **Staging / work in progress.** There is now a fifth world, **Cengkareng Explorer**, containing 12 fictionalized Jakarta Barat districts with a mini-map and travel menu. 125 actual generated `.glb` assets are bundled in `public/assets/3d/jakarta/` (not 125 fake image labels). The current meshes are **stylized prototype geometry**; Argon will develop their final details.
+
+### 🌏 One app, solo and multiplayer
+
+```bash
+npm install && npm --prefix server install
+npm run test:unit
+npm --prefix server test
+npm run build
+ALLOWED_ORIGINS=http://localhost:3001 npm start
+```
+
+Open `http://localhost:3001`. In deployed production builds, the game automatically connects to the same-origin `wss://HOST/ws`. If WebSocket isn't available, solo gameplay continues. The plan for one Render web service is defined in `render.yaml` but **has not been deployed**.
+
+📱 **Mobile/tablet:** touch look, virtual joystick, action buttons, emote and adaptive pixel ratio are an initial pass, not yet validated on real devices. Realtime room capacity is 16 players, not authoritative physics or anti-cheat.
+
+📌 **Map accuracy:** this is a fictional playable level *inspired by* administrative boundary names and canal context, not a street-for-street Indonesia/Jakarta map. For adding licensed OSM source data, see the [handoff to Argon](docs/ARGON_ANTIGRAVITY_MASTER_PROMPT_V2.md), [Cengkareng Timur official profile](https://barat.jakarta.go.id/kelurahan/cengkareng-timur) and [OpenStreetMap licensing](https://www.openstreetmap.org/copyright/en).
+
+🤝 [Technical V2 handoff](docs/V2_RELEASE_HANDOFF.md) · [One-shot Antigravity Argon prompt](docs/ARGON_ANTIGRAVITY_MASTER_PROMPT_V2.md)

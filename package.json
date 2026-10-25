@@ -1,6 +1,6 @@
 {
   "name": "blockverse",
-  "version": "1.2.0",
+  "version": "2.0.0-alpha.1",
   "private": true,
   "description": "BLOCKVERSE original 3D browser sandbox; cloud persistence with strict Firestore rules",
   "type": "module",
@@ -11,8 +11,11 @@
     "test": "npm run test:unit",
     "check": "npm run test && npm run build",
     "zip": "node scripts/create-zip.mjs",
-    "test:unit": "node --test tests/schema.test.mjs tests/integrity.test.mjs",
-    "test:rules:emulator": "firebase emulators:exec --project blockverse-ci --only firestore \"node --test tests/firestore-emulator.test.mjs\""
+    "test:unit": "node --test tests/schema.test.mjs tests/integrity.test.mjs tests/cengkareng-assets.test.mjs",
+    "test:rules:emulator": "firebase emulators:exec --project blockverse-ci --only firestore \"node --test tests/firestore-emulator.test.mjs\"",
+    "start": "node server/server.mjs",
+    "test:multiplayer": "cd server && npm test",
+    "dev:unified": "npm run build && npm start"
   },
   "dependencies": {
     "firebase": "11.6.1",
