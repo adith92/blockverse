@@ -43,21 +43,24 @@ Model di bawah ini bukan gambar latar 2D. Repository berisi **mesh glTF 2.0 & GL
 
 **Asset source:** `public/assets/3d/*.gltf` dan `*.glb`. Semua dibuat khusus untuk BLOCKVERSE menggunakan geometri prosedural. Scene lama dan collision-nya tetap dipertahankan sebagai fallback jika file glTF gagal dimuat.
 
-### 🎮 Kontrol petualang
+### 🎮 Kontrol petualang (Keyboard, Layar Sentuh & Gamepad Lintas-Platform)
 
-| Gerakan | Tombol |
-|---|---|
-| 🏃 Jalan | `W A S D` / panah |
-| 💨 Lari cepat | `Shift` |
-| 🪂 Lompat | `Space` |
-| 🎥 Kamera | Tarik mouse dan scroll |
-| 🌀 Masuk portal | `E` |
-| 👋 Emote aman | `Q` |
-| 🔄 Respawn | `R` |
-| 🧱 Mode uji Builder | `B` |
-| ↩️ Undo / redo | `Ctrl+Z` / `Ctrl+Y` |
+| Gerakan | Keyboard & Mouse | Gamepad (Android, macOS, Windows, iOS Browser) |
+|---|---|---|
+| 🏃 Jalan / Gerak | `W A S D` / Panah | **Stik Kiri (L-Stick)** / D-Pad |
+| 🎥 Kamera & Zoom | Tarik mouse & scroll | **Stik Kanan (R-Stick)** & `L1` / `R1` (Zoom) |
+| 🪂 Lompat | `Space` | **A / Cross (`✕`)** |
+| 💨 Lari cepat (Sprint) | `Shift` | **B / Circle (`○`)** / `L3` / `R2` |
+| 🌀 Masuk portal / Interaksi | `E` | **X / Square (`□`)** |
+| 👋 Emote aman | `Q` | **Y / Triangle (`△`)** |
+| 🔄 Respawn | `R` | **Select / Share** |
+| ⚙️ Menu Pengaturan | `Esc` | **Start / Options** |
+| 🧱 Mode uji Builder | `B` | Tombol UI / Keyboard `B` |
+| ↩️ Undo / redo | `Ctrl+Z` / `Ctrl+Y` | Tombol UI / `Ctrl+Z` / `Ctrl+Y` |
 
-📱 **HP/tablet:** joystick sentuh dan tombol aksi tersedia, tetapi uji UX & performa perangkat nyata masih diperlukan.
+📱 **HP/tablet & Gamepad:**
+- **Layar sentuh:** joystick virtual, tombol aksi berukuran ramah jari (`>= 48px`), serta cubit 2 jari (*pinch-to-zoom*) tersedia otomatis di perangkat sentuh.
+- **Gamepad Browser (`src/input/gamepad.js`):** mendukung pengontrol W3C Standard & Bluetooth HID di **Android** (Chrome/Edge/Samsung Internet/Firefox), **macOS** (Safari/Chrome/Firefox), **Windows** (Chrome/Edge/Firefox XInput & DirectInput), serta **iOS/iPadOS 16+** (Safari MFi, Xbox Wireless, DualSense, DualShock 4, Switch Pro, Backbone). Saat stik aktif di ponsel/tablet, tombol sentuh layar otomatis disembunyikan dan muncul kembali bila layar disentuh.
 
 ## 🧑‍🤝‍🧑 Cara main multiplayer
 
@@ -176,7 +179,7 @@ blockverse/
 
 ## 🗺️ V2 experimental Cengkareng Explorer (feature branch only)
 
-🚧 **Staging / work in progress.** There is now a fifth world, **Cengkareng Explorer**, containing 12 fictionalized Jakarta Barat districts with a mini-map and travel menu. 125 actual generated `.glb` assets are bundled in `public/assets/3d/jakarta/` (not 125 fake image labels). The current meshes are **stylized prototype geometry**; Argon will develop their final details.
+🚧 **Staging / work in progress.** Dunia kelima **Cengkareng Explorer** kini memiliki 12 distrik terinspirasi Jakarta Barat dengan mini-map interaktif, pelacak misi 12 Lentera Distrik, jembatan lengkung Kali Apuran yang dapat diseberangi, serta kursus parkour vertikal di **Rooftop Explorer**. Sebanyak **125 model `.glb` prosedural asli** (`43.568` segitiga total, `4,11 MiB`, single-drawcall per model dengan vertex color + baked AO + detail texture atlas `public/assets/3d/jakarta/atlas_jakarta_v2.png`) dibundel di `public/assets/3d/jakarta/`.
 
 ### 🌏 One app, solo and multiplayer
 
@@ -190,8 +193,6 @@ ALLOWED_ORIGINS=http://localhost:3001 npm start
 
 Open `http://localhost:3001`. In deployed production builds, the game automatically connects to the same-origin `wss://HOST/ws`. If WebSocket isn't available, solo gameplay continues. The plan for one Render web service is defined in `render.yaml` but **has not been deployed**.
 
-📱 **Mobile/tablet:** touch look, virtual joystick, action buttons, emote and adaptive pixel ratio are an initial pass, not yet validated on real devices. Realtime room capacity is 16 players, not authoritative physics or anti-cheat.
+📱 **Mobile/tablet & Gamepad:** touch look, pinch-to-zoom, virtual joystick, action buttons (`>= 48px`), safe-area HUD, adaptive pixel ratio, and cross-platform Gamepad support (**Android**, **macOS**, **Windows**, **iOS/iPadOS** browsers via `src/input/gamepad.js`) are integrated and verified in multi-viewport browser tests; physical field testing across diverse low-end handhelds remains recommended before public launch. Realtime room capacity is 16 players, not authoritative physics or anti-cheat.
 
-📌 **Map accuracy:** this is a fictional playable level *inspired by* administrative boundary names and canal context, not a street-for-street Indonesia/Jakarta map. For adding licensed OSM source data, see the [handoff to Argon](docs/ARGON_ANTIGRAVITY_MASTER_PROMPT_V2.md), [Cengkareng Timur official profile](https://barat.jakarta.go.id/kelurahan/cengkareng-timur) and [OpenStreetMap licensing](https://www.openstreetmap.org/copyright/en).
-
-🤝 [Technical V2 handoff](docs/V2_RELEASE_HANDOFF.md) · [One-shot Antigravity Argon prompt](docs/ARGON_ANTIGRAVITY_MASTER_PROMPT_V2.md)
+📌 **Map accuracy & Optional OpenStreetMap (ODbL) Overlay:** the default world is a fictional playable level *inspired by* administrative boundary names and canal context, not a street-for-street navigation map. Players can optionally toggle **🌐 Koridor OSM** in the Cengkareng HUD panel to view simplified public road/canal corridors generated by `scripts/fetch_osm_cengkareng.py` (`public/assets/geo/cengkareng_osm_overlay.json`) with full `© OpenStreetMap contributors (ODbL 1.0)` attribution. See [Argon Architecture & Collisions](docs/argon/ARCHITECTURE_AND_COLLISIONS.md), [Visual & Performance Report](docs/visual/PERFORMANCE_REPORT.md), [Proposed Diffs for ChatGPT](docs/argon/CHATGPT_PROPOSED_DIFFS.md), [Technical V2 handoff](docs/V2_RELEASE_HANDOFF.md), and [One-shot Antigravity Argon prompt](docs/ARGON_ANTIGRAVITY_MASTER_PROMPT_V2.md).
