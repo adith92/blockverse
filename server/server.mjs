@@ -2,7 +2,7 @@ import http from 'node:http';
 import {WebSocketServer, WebSocket} from 'ws';
 import {randomUUID} from 'node:crypto';
 import {createReadStream,existsSync,statSync} from 'node:fs';
-import {resolve,sep,extname,join as joinPath} from 'node:path';
+import {resolve,sep,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {MAX_PLAYERS,ALLOWED_WORLDS,ALLOWED_EMOTES,roomId,displayName,avatar,position,rotation,originAllowed} from './validation.mjs';
 
@@ -26,8 +26,8 @@ const server=http.createServer((req,res)=>{
   let path=resolve(siteRoot,'.'+(pathname==='/'?'/index.html':pathname));
   if(path!==siteRoot && !path.startsWith(siteRoot+sep)){res.writeHead(403);res.end();return;}
   if(!existsSync(path)||!statSync(path).isFile()){
-    if(pathname.startsWith('/assets/')){res.writeHead(404);res.end();return;}
-    path=joinPath(siteRoot,'index.html');
+    // Reject unknown URLs instead of serving index.html for normalized traversal attempts.
+    res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});res.end('Not found');return;
   }
   if(!existsSync(path)){res.writeHead(503,{'Content-Type':'text/plain'});res.end('Frontend build unavailable');return;}
   const ext=extname(path).toLowerCase();
