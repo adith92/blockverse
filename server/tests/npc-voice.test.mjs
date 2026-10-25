@@ -20,7 +20,7 @@ test('Piper speech path accepts only one-time server-issued ids',async()=>{
   const result=await ask.json();assert.match(result.speechId,/^[0-9a-f-]{36}$/);
   const wrong=await fetch(base+'/api/npc/speech/00000000-0000-0000-0000-000000000000',{headers});
   assert.equal(wrong.status,404);
-  const r=await fetch(base+'/api/npc/speech/'+result.speechId,{headers});
+  const r=await fetch(base+'/api/npc/speech/'+result.speechId,{headers:{'Sec-Fetch-Site':'same-origin'}});
   assert.equal(r.status,200);assert.match(r.headers.get('content-type'),/audio\/wav/);
   assert.equal((await r.arrayBuffer()).byteLength,48);
   assert.equal(spoken,result.reply);
