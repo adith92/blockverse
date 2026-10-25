@@ -51,7 +51,9 @@ function cleanupVoices(){
 async function askLocalOllama({npc,topic,question,fetchImpl,env}){
  const model=env.OLLAMA_MODEL||'qwen3:4b';
  // Intentional loopback only. Never accept a user-supplied host, URL, prompt or tool.
- const url='http://127.0.0.1:11434/api/chat';
+ const base=env.OLLAMA_BASE_URL||'http://127.0.0.1:11434';
+ if(!['http://127.0.0.1:11434','http://localhost:11434','http://ollama:11434'].includes(base))throw Error('unsafe_ollama_host');
+ const url=base+'/api/chat';
  const system=[
   'Kamu karakter fiksi edukatif BLOCKVERSE bernama '+npc.name+'.',
   'Peran: '+npc.role+'. Kelas sasaran SD, pakai Bahasa Indonesia yang hangat, jelas, positif dan ramah anak.',
@@ -103,7 +105,7 @@ export function createNpcApi({env=process.env,fetchImpl=fetch,ttsImpl=piperWav}=
   // Requesting voice and a model response needs a browser origin that we trust.
   if(origin&&!allowedOrigins.includes(origin)) {json(res,403,{error:'origin_denied'});return true;}
   if(pathname==='/api/npc/catalog'&&req.method==='GET'){
-   json(res,200,{characters:NPC_CATALOG.map(({id,name,role,world,districtId,position,color,topic,greeting,focus,topics})=>({id,name,role,world,districtId,position,color,topic,greeting,focus,topics})),mode:'educational'});return true;
+   json(res,200,{characters:NPC_CATALOG.map(({id,name,role,world,districtId,position,color,topic,greeting,focus,topics})=>({id,name,role,world,districtId,position,color,topic,greeting,focus,topics})),mode:'educational',freeformEnabled:env.NPC_FREEFORM_ENABLED==='1'});return true;
   }
   if(pathname==='/api/npc/talk'&&req.method==='POST'){
    if(!origin){json(res,403,{error:'origin_required'});return true;}
