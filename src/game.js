@@ -3180,6 +3180,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
 
     window.onload = async function () {
       await backend.init();
+      if(touchDevice) document.getElementById('hud-dev-stats')?.classList.add('hidden');
       renderEmoteWheelButtons();
       renderBuilderToolbarUI();
       renderAvatarEditorUI();
