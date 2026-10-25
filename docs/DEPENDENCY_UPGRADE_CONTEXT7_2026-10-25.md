@@ -14,12 +14,14 @@
 | @firebase/rules-unit-testing | 4.0.1 | 6.0.0 |
 | PostCSS/Autoprefixer (direct) | 8.4.49 / 10.4.20 | removed: handled by official Tailwind v4/Vite pipeline |
 | ws | 8.22.0 | 8.22.0 (already latest) |
+| Font Awesome Icons | 6.5.1 (CDN) | 7.3.1 (self-hosted npm bundle) |
 | Node.js minimum | >=20 | >=22.12; CI Node 24 |
 | GitHub Actions | checkout/setup-node v4, setup-java v4, upload-artifact v4 | checkout/setup-node/upload-artifact v7, setup-java v6 |
 
 ## Code migration
 - `src/styles.css`: replaced obsolete `@tailwind` v3 directives with `@import "tailwindcss"`; added a CSS-first `@theme` mapping that retains all existing `bv*` class names and Fredoka/Plus Jakarta Sans fonts; explicitly restored dark-class selector.
 - `vite.config.js`: registered `@tailwindcss/vite` plugin. Kept output `dist/`, ES2022 browser target, and static serving assumptions.
+- Icon framework Font Awesome v7 bundled with Vite rather than the old external v6 CDN; no runtime reliance on cdnjs for icon CSS/fonts.
 - Exact top-level library versions, no `@latest` wildcard. The WebSocket protocol remains unchanged.
 - The existing 125 Argon GLB assets, OSM overlay, 12 Cengkareng districts and server code are carried forward untouched.
 
