@@ -7,6 +7,7 @@
 - Generated four original real glTF/GLB 3D environment prefabs and loaded them in the game through GLTFLoader.
 - Added four rendered model previews and illustrated kid-friendly README.
 - Added server validation unit suite, deployment guidance and production limitations.
+- Enforced patched @grpc/grpc-js@1.14.6 via npm overrides after CI detected upstream vulnerabilities.
 - Not yet confirmed: live VPS deployment, end-to-end multiplayer across networks, anti-cheat, verified rewards, compliance for public child-directed release.
 
 ## v1.1.0 — Secure Migration Candidate
