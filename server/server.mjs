@@ -1,6 +1,7 @@
 import http from 'node:http';
 import {WebSocketServer, WebSocket} from 'ws';
 import {randomUUID} from 'node:crypto';
+import {createNpcApi} from './npc-ai.mjs';
 import {createReadStream,existsSync,statSync} from 'node:fs';
 import {resolve,sep,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -15,7 +16,9 @@ if(!allowedOrigins.length) throw new Error('ALLOWED_ORIGINS must not be empty');
 const rooms = new Map();
 const connectionsByIp = new Map();
 const startedAt=Date.now();
-const server=http.createServer((req,res)=>{
+const npcApi=createNpcApi();
+const server=http.createServer(async (req,res)=>{
+  if(await npcApi(req,res,allowedOrigins))return;
   if (req.url === '/healthz' || req.url === '/readyz'){
     res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});
     res.end(JSON.stringify({ok:true,service:'blockverse-multiplayer',uptimeSeconds:Math.floor((Date.now()-startedAt)/1000),rooms:rooms.size}));return;
