@@ -1,9 +1,12 @@
-FROM node:22-alpine
+# Unified Node web server: WebSocket, game frontend, and optional local NPC AI gateway.
+# Piper and Ollama model runtimes are NOT bundled; run them on the approved local host.
+FROM node:24-alpine
 ENV NODE_ENV=production
 WORKDIR /app
-COPY server/package*.json ./
-RUN npm install --omit=dev --no-audit --no-fund
-COPY server/validation.mjs server/server.mjs ./
+COPY server/package*.json ./server/
+RUN cd server && npm install --omit=dev --no-audit --no-fund
+COPY server/*.mjs ./server/
+COPY src/npc/catalog.mjs ./src/npc/catalog.mjs
 USER node
 EXPOSE 3001
-CMD ["node", "server.mjs"]
+CMD ["node", "server/server.mjs"]
