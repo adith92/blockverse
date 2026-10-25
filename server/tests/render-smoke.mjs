@@ -28,7 +28,7 @@ try{
  const manifest=await get('/assets/3d/jakarta/manifest.json');assert.equal(manifest.status,200);
  const assets=await manifest.json();assert.equal(assets.assets.length,125);
  console.log('OK: all 125 assets listed in manifest');
- const sample=await get(assets.assets[0].path||'/assets/3d/jakarta/buildings/rumah_kecil_a.glb');
+ const sample=await get(assets.assets[0].src);
  assert.equal(sample.status,200);assert.ok((await sample.arrayBuffer()).byteLength>100);
  console.log('OK: actual 3D model served');
  const catalog=await get('/api/npc/catalog');assert.equal(catalog.status,200);
