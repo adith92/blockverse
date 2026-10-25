@@ -1,0 +1,183 @@
+{
+  "timestamp": "2026-10-25T10:52:14.642Z",
+  "wsVerification": {
+    "client1ReceivedMove": true,
+    "c17RejectedWithRoomFull": true,
+    "c17ErrorMsg": {
+      "event": "room:error",
+      "code": "room_full"
+    }
+  },
+  "gamepadProfiles": [
+    {
+      "id": "Xbox Wireless Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b12)",
+      "detectedProfile": "Xbox Controller",
+      "southGlyph": "A",
+      "moveX": 0.47,
+      "moveY": -0.76,
+      "jumpJustPressed": true
+    },
+    {
+      "id": "DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)",
+      "detectedProfile": "PlayStation DualSense/DS4",
+      "southGlyph": "✕",
+      "moveX": 0,
+      "moveY": 0,
+      "jumpJustPressed": false
+    },
+    {
+      "id": "MFi Extended Gamepad (iOS Safari)",
+      "detectedProfile": "Apple MFi / iOS Gamepad",
+      "southGlyph": "A",
+      "moveX": 0,
+      "moveY": 0,
+      "jumpJustPressed": false
+    },
+    {
+      "id": "Android Bluetooth Gamepad (Vendor: 18d1)",
+      "detectedProfile": "Gamepad",
+      "southGlyph": "A/✕",
+      "moveX": -1,
+      "moveY": 1,
+      "jumpJustPressed": false
+    }
+  ],
+  "telemetry": {
+    "desktopPlaza": {
+      "fps": 60,
+      "drawCalls": 532,
+      "triangles": 14684,
+      "geometries": 510,
+      "textures": 36,
+      "world": "cengkareng",
+      "pos": [
+        150,
+        -0.01,
+        24
+      ],
+      "gamepadConnected": true,
+      "gamepadProfile": {
+        "name": "PlayStation DualSense/DS4",
+        "south": "✕",
+        "east": "○",
+        "west": "□",
+        "north": "△",
+        "lb": "L1",
+        "rb": "R1",
+        "lt": "L2",
+        "rt": "R2",
+        "select": "Share",
+        "start": "Options"
+      }
+    },
+    "desktopKaliApuran": {
+      "fps": 60,
+      "drawCalls": 1095,
+      "triangles": 4652,
+      "geometries": 960,
+      "textures": 59,
+      "world": "cengkareng",
+      "pos": [
+        374,
+        -0.01,
+        -248
+      ],
+      "gamepadConnected": true,
+      "gamepadProfile": {
+        "name": "PlayStation DualSense/DS4",
+        "south": "✕",
+        "east": "○",
+        "west": "□",
+        "north": "△",
+        "lb": "L1",
+        "rb": "R1",
+        "lt": "L2",
+        "rt": "R2",
+        "select": "Share",
+        "start": "Options"
+      }
+    },
+    "desktopRooftop": {
+      "fps": 60,
+      "drawCalls": 869,
+      "triangles": 12580,
+      "geometries": 1213,
+      "textures": 102,
+      "world": "cengkareng",
+      "pos": [
+        150,
+        6,
+        294
+      ],
+      "gamepadConnected": true,
+      "gamepadProfile": {
+        "name": "PlayStation DualSense/DS4",
+        "south": "✕",
+        "east": "○",
+        "west": "□",
+        "north": "△",
+        "lb": "L1",
+        "rb": "R1",
+        "lt": "L2",
+        "rt": "R2",
+        "select": "Share",
+        "start": "Options"
+      }
+    },
+    "tablet1024x768": {
+      "fps": 60,
+      "drawCalls": 425,
+      "triangles": 14784,
+      "geometries": 1224,
+      "textures": 113,
+      "world": "cengkareng",
+      "pos": [
+        420,
+        -0.01,
+        24
+      ],
+      "gamepadConnected": false,
+      "gamepadProfile": {
+        "name": "PlayStation DualSense/DS4",
+        "south": "✕",
+        "east": "○",
+        "west": "□",
+        "north": "△",
+        "lb": "L1",
+        "rb": "R1",
+        "lt": "L2",
+        "rt": "R2",
+        "select": "Share",
+        "start": "Options"
+      }
+    },
+    "mobile360x800": {
+      "fps": 60,
+      "drawCalls": 208,
+      "triangles": 9060,
+      "geometries": 1224,
+      "textures": 113,
+      "world": "cengkareng",
+      "pos": [
+        150,
+        -0.01,
+        24
+      ],
+      "gamepadConnected": false,
+      "gamepadProfile": {
+        "name": "PlayStation DualSense/DS4",
+        "south": "✕",
+        "east": "○",
+        "west": "□",
+        "north": "△",
+        "lb": "L1",
+        "rb": "R1",
+        "lt": "L2",
+        "rt": "R2",
+        "select": "Share",
+        "start": "Options"
+      }
+    }
+  },
+  "qaSuiteSummary": "Hasil: 14 / 14 Pengujian Otomatis LULUS (tes internal (bukan pengujian server))"
+}

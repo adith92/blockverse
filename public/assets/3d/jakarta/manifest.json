@@ -1,7 +1,12 @@
 {
-  "schemaVersion": 1,
-  "title": "BLOCKVERSE Jakarta/Cengkareng Stylized 3D Asset Pack",
+  "schemaVersion": 2,
+  "title": "BLOCKVERSE Jakarta/Cengkareng Stylized 3D Asset Pack (Argon V2 Polish)",
   "attribution": "Original procedural models; not real building photographs or official geospatial data",
+  "textureAtlas": {
+    "src": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+    "resolution": "512x512 master / 128x128 embedded PNG per GLB",
+    "tiles": "4x4 Indonesian architectural & tropical materials (genteng, ruko shutter, roster, conblock, foliage, water)"
+  },
   "modelCount": 125,
   "categories": {
     "buildings": 25,
@@ -19,10 +24,17 @@
       "label": "Kampung Home",
       "src": "/assets/3d/jakarta/buildings/kampung_home.glb",
       "format": "glb",
-      "bytes": 19996,
-      "triangleCount": 604,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 33192,
+      "triangleCount": 368,
+      "lodTriangleCount": 92,
+      "dimensions": [
+        7.56,
+        5.93,
+        8.3
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -31,10 +43,17 @@
       "label": "Terrace Home",
       "src": "/assets/3d/jakarta/buildings/terrace_home.glb",
       "format": "glb",
-      "bytes": 20780,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46088,
+      "triangleCount": 500,
+      "lodTriangleCount": 125,
+      "dimensions": [
+        7.7,
+        6.06,
+        8.65
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -43,10 +62,17 @@
       "label": "Corner Home",
       "src": "/assets/3d/jakarta/buildings/corner_home.glb",
       "format": "glb",
-      "bytes": 20828,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 26400,
+      "triangleCount": 280,
+      "lodTriangleCount": 70,
+      "dimensions": [
+        7.73,
+        6.21,
+        7.35
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -55,10 +81,17 @@
       "label": "Roof Garden Home",
       "src": "/assets/3d/jakarta/buildings/roof_garden_home.glb",
       "format": "glb",
-      "bytes": 28168,
-      "triangleCount": 964,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 79604,
+      "triangleCount": 936,
+      "lodTriangleCount": 234,
+      "dimensions": [
+        7.5,
+        7.62,
+        6.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -67,10 +100,17 @@
       "label": "Contract House",
       "src": "/assets/3d/jakarta/buildings/contract_house.glb",
       "format": "glb",
-      "bytes": 17544,
-      "triangleCount": 496,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 18220,
+      "triangleCount": 176,
+      "lodTriangleCount": 44,
+      "dimensions": [
+        10.16,
+        5.34,
+        6.7
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -79,10 +119,17 @@
       "label": "Two Storey House",
       "src": "/assets/3d/jakarta/buildings/two_storey_house.glb",
       "format": "glb",
-      "bytes": 20796,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 39756,
+      "triangleCount": 452,
+      "lodTriangleCount": 113,
+      "dimensions": [
+        7.9,
+        8.16,
+        8.15
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -91,10 +138,17 @@
       "label": "Three Storey House",
       "src": "/assets/3d/jakarta/buildings/three_storey_house.glb",
       "format": "glb",
-      "bytes": 23280,
-      "triangleCount": 748,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 62228,
+      "triangleCount": 740,
+      "lodTriangleCount": 185,
+      "dimensions": [
+        8.0,
+        10.61,
+        8.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -103,10 +157,17 @@
       "label": "Ruko Small",
       "src": "/assets/3d/jakarta/buildings/ruko_small.glb",
       "format": "glb",
-      "bytes": 25724,
-      "triangleCount": 856,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 19316,
+      "triangleCount": 180,
+      "lodTriangleCount": 45,
+      "dimensions": [
+        5.1,
+        7.6,
+        8.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -115,10 +176,17 @@
       "label": "Ruko Double",
       "src": "/assets/3d/jakarta/buildings/ruko_double.glb",
       "format": "glb",
-      "bytes": 17540,
-      "triangleCount": 496,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 31488,
+      "triangleCount": 336,
+      "lodTriangleCount": 84,
+      "dimensions": [
+        9.9,
+        10.45,
+        8.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -127,10 +195,17 @@
       "label": "Ruko Tall",
       "src": "/assets/3d/jakarta/buildings/ruko_tall.glb",
       "format": "glb",
-      "bytes": 23248,
-      "triangleCount": 748,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 24932,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        5.1,
+        13.3,
+        8.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -139,10 +214,17 @@
       "label": "Market Hall",
       "src": "/assets/3d/jakarta/buildings/market_hall.glb",
       "format": "glb",
-      "bytes": 20824,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 16100,
+      "triangleCount": 148,
+      "lodTriangleCount": 37,
+      "dimensions": [
+        12.36,
+        7.83,
+        10.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -151,10 +233,17 @@
       "label": "Market Kiosk",
       "src": "/assets/3d/jakarta/buildings/market_kiosk.glb",
       "format": "glb",
-      "bytes": 25736,
-      "triangleCount": 856,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22248,
+      "triangleCount": 200,
+      "lodTriangleCount": 50,
+      "dimensions": [
+        5.46,
+        4.43,
+        6.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -163,10 +252,17 @@
       "label": "Warung",
       "src": "/assets/3d/jakarta/buildings/warung.glb",
       "format": "glb",
-      "bytes": 19984,
-      "triangleCount": 604,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22236,
+      "triangleCount": 200,
+      "lodTriangleCount": 50,
+      "dimensions": [
+        5.46,
+        4.43,
+        6.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -175,10 +271,17 @@
       "label": "Coffee Stall",
       "src": "/assets/3d/jakarta/buildings/coffee_stall.glb",
       "format": "glb",
-      "bytes": 20788,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22248,
+      "triangleCount": 200,
+      "lodTriangleCount": 50,
+      "dimensions": [
+        5.46,
+        4.43,
+        6.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -187,10 +290,17 @@
       "label": "Mini Mart",
       "src": "/assets/3d/jakarta/buildings/mini_mart.glb",
       "format": "glb",
-      "bytes": 20832,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 10016,
+      "triangleCount": 72,
+      "lodTriangleCount": 18,
+      "dimensions": [
+        8.4,
+        4.56,
+        7.0
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -199,10 +309,17 @@
       "label": "School Block",
       "src": "/assets/3d/jakarta/buildings/school_block.glb",
       "format": "glb",
-      "bytes": 25576,
-      "triangleCount": 976,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 59408,
+      "triangleCount": 704,
+      "lodTriangleCount": 176,
+      "dimensions": [
+        13.4,
+        9.21,
+        8.6
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -211,10 +328,17 @@
       "label": "Clinic",
       "src": "/assets/3d/jakarta/buildings/clinic.glb",
       "format": "glb",
-      "bytes": 16368,
-      "triangleCount": 508,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 33612,
+      "triangleCount": 356,
+      "lodTriangleCount": 89,
+      "dimensions": [
+        9.2,
+        5.2,
+        9.3
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -223,10 +347,17 @@
       "label": "Community Hall",
       "src": "/assets/3d/jakarta/buildings/community_hall.glb",
       "format": "glb",
-      "bytes": 20788,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 24916,
+      "triangleCount": 224,
+      "lodTriangleCount": 56,
+      "dimensions": [
+        11.0,
+        7.06,
+        8.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -235,10 +366,17 @@
       "label": "Mushola",
       "src": "/assets/3d/jakarta/buildings/mushola.glb",
       "format": "glb",
-      "bytes": 32572,
-      "triangleCount": 1156,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 35436,
+      "triangleCount": 360,
+      "lodTriangleCount": 90,
+      "dimensions": [
+        8.8,
+        8.74,
+        8.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -247,10 +385,17 @@
       "label": "Mosque Courtyard",
       "src": "/assets/3d/jakarta/buildings/mosque_courtyard.glb",
       "format": "glb",
-      "bytes": 35056,
-      "triangleCount": 1264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 56896,
+      "triangleCount": 596,
+      "lodTriangleCount": 149,
+      "dimensions": [
+        12.0,
+        11.9,
+        10.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -259,10 +404,17 @@
       "label": "Warehouse",
       "src": "/assets/3d/jakarta/buildings/warehouse.glb",
       "format": "glb",
-      "bytes": 17536,
-      "triangleCount": 496,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 10716,
+      "triangleCount": 80,
+      "lodTriangleCount": 20,
+      "dimensions": [
+        12.16,
+        7.23,
+        9.75
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -271,10 +423,17 @@
       "label": "Office Midrise",
       "src": "/assets/3d/jakarta/buildings/office_midrise.glb",
       "format": "glb",
-      "bytes": 23236,
-      "triangleCount": 748,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 57780,
+      "triangleCount": 684,
+      "lodTriangleCount": 171,
+      "dimensions": [
+        9.0,
+        11.9,
+        7.4
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -283,10 +442,17 @@
       "label": "Apartments",
       "src": "/assets/3d/jakarta/buildings/apartments.glb",
       "format": "glb",
-      "bytes": 20820,
-      "triangleCount": 640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 97084,
+      "triangleCount": 1188,
+      "lodTriangleCount": 297,
+      "dimensions": [
+        9.6,
+        13.5,
+        8.46
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -295,10 +461,17 @@
       "label": "Guard Post",
       "src": "/assets/3d/jakarta/buildings/guard_post.glb",
       "format": "glb",
-      "bytes": 25736,
-      "triangleCount": 856,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 11920,
+      "triangleCount": 88,
+      "lodTriangleCount": 22,
+      "dimensions": [
+        4.3,
+        4.56,
+        4.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -307,10 +480,17 @@
       "label": "Workshop",
       "src": "/assets/3d/jakarta/buildings/workshop.glb",
       "format": "glb",
-      "bytes": 19984,
-      "triangleCount": 604,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 31316,
+      "triangleCount": 344,
+      "lodTriangleCount": 86,
+      "dimensions": [
+        8.26,
+        5.28,
+        7.18
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -319,10 +499,17 @@
       "label": "Road Straight",
       "src": "/assets/3d/jakarta/infrastructure/road_straight.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 11900,
+      "triangleCount": 96,
+      "lodTriangleCount": 24,
+      "dimensions": [
+        14.0,
+        0.35,
+        8.02
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -331,10 +518,17 @@
       "label": "Road Corner",
       "src": "/assets/3d/jakarta/infrastructure/road_corner.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 13768,
+      "triangleCount": 120,
+      "lodTriangleCount": 30,
+      "dimensions": [
+        11.01,
+        0.35,
+        11.21
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -343,10 +537,17 @@
       "label": "Road Crossing",
       "src": "/assets/3d/jakarta/infrastructure/road_crossing.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 19392,
+      "triangleCount": 192,
+      "lodTriangleCount": 48,
+      "dimensions": [
+        14.0,
+        0.35,
+        14.0
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -355,10 +556,17 @@
       "label": "Road Tjunction",
       "src": "/assets/3d/jakarta/infrastructure/road_tjunction.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 11900,
+      "triangleCount": 96,
+      "lodTriangleCount": 24,
+      "dimensions": [
+        14.0,
+        0.35,
+        11.01
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -367,10 +575,17 @@
       "label": "Road Bend",
       "src": "/assets/3d/jakarta/infrastructure/road_bend.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 13776,
+      "triangleCount": 120,
+      "lodTriangleCount": 30,
+      "dimensions": [
+        11.12,
+        0.21,
+        8.74
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -379,10 +594,17 @@
       "label": "Sidewalk",
       "src": "/assets/3d/jakarta/infrastructure/sidewalk.glb",
       "format": "glb",
-      "bytes": 4408,
-      "triangleCount": 120,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 17508,
+      "triangleCount": 168,
+      "lodTriangleCount": 42,
+      "dimensions": [
+        12.0,
+        0.34,
+        3.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -391,10 +613,17 @@
       "label": "Zebra Crossing",
       "src": "/assets/3d/jakarta/infrastructure/zebra_crossing.glb",
       "format": "glb",
-      "bytes": 6904,
-      "triangleCount": 168,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 13776,
+      "triangleCount": 120,
+      "lodTriangleCount": 30,
+      "dimensions": [
+        12.0,
+        0.35,
+        8.02
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -403,10 +632,17 @@
       "label": "Pedestrian Bridge",
       "src": "/assets/3d/jakarta/infrastructure/pedestrian_bridge.glb",
       "format": "glb",
-      "bytes": 5360,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 57816,
+      "triangleCount": 592,
+      "lodTriangleCount": 148,
+      "dimensions": [
+        19.35,
+        6.71,
+        4.05
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -415,10 +651,17 @@
       "label": "Overpass",
       "src": "/assets/3d/jakarta/infrastructure/overpass.glb",
       "format": "glb",
-      "bytes": 4408,
-      "triangleCount": 120,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22984,
+      "triangleCount": 216,
+      "lodTriangleCount": 54,
+      "dimensions": [
+        16.0,
+        5.83,
+        9.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -427,10 +670,17 @@
       "label": "Bridge Canal",
       "src": "/assets/3d/jakarta/infrastructure/bridge_canal.glb",
       "format": "glb",
-      "bytes": 5360,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 102732,
+      "triangleCount": 1168,
+      "lodTriangleCount": 292,
+      "dimensions": [
+        14.0,
+        2.3,
+        6.2
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -439,10 +689,17 @@
       "label": "Canal Wall",
       "src": "/assets/3d/jakarta/infrastructure/canal_wall.glb",
       "format": "glb",
-      "bytes": 5360,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 52112,
+      "triangleCount": 508,
+      "lodTriangleCount": 127,
+      "dimensions": [
+        14.0,
+        1.81,
+        6.45
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -451,10 +708,17 @@
       "label": "Drainage Module",
       "src": "/assets/3d/jakarta/infrastructure/drainage_module.glb",
       "format": "glb",
-      "bytes": 4408,
-      "triangleCount": 120,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 16584,
+      "triangleCount": 156,
+      "lodTriangleCount": 39,
+      "dimensions": [
+        8.0,
+        0.95,
+        2.4
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -463,10 +727,17 @@
       "label": "Parking Lot",
       "src": "/assets/3d/jakarta/infrastructure/parking_lot.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 14704,
+      "triangleCount": 132,
+      "lodTriangleCount": 33,
+      "dimensions": [
+        14.0,
+        0.34,
+        9.0
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -475,10 +746,17 @@
       "label": "Alley Pavers",
       "src": "/assets/3d/jakarta/infrastructure/alley_pavers.glb",
       "format": "glb",
-      "bytes": 4408,
-      "triangleCount": 120,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25944,
+      "triangleCount": 276,
+      "lodTriangleCount": 69,
+      "dimensions": [
+        10.0,
+        0.34,
+        3.4
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -487,10 +765,17 @@
       "label": "Roundabout",
       "src": "/assets/3d/jakarta/infrastructure/roundabout.glb",
       "format": "glb",
-      "bytes": 4288,
-      "triangleCount": 84,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 36744,
+      "triangleCount": 348,
+      "lodTriangleCount": 87,
+      "dimensions": [
+        13.6,
+        3.33,
+        13.6
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "surface_or_parapet",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -499,10 +784,17 @@
       "label": "Rain Tree",
       "src": "/assets/3d/jakarta/nature/rain_tree.glb",
       "format": "glb",
-      "bytes": 21288,
-      "triangleCount": 1240,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 54612,
+      "triangleCount": 588,
+      "lodTriangleCount": 147,
+      "dimensions": [
+        7.25,
+        5.49,
+        6.49
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -511,10 +803,17 @@
       "label": "Rain Tree Bloom",
       "src": "/assets/3d/jakarta/nature/rain_tree_bloom.glb",
       "format": "glb",
-      "bytes": 18936,
-      "triangleCount": 1320,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 122788,
+      "triangleCount": 1388,
+      "lodTriangleCount": 347,
+      "dimensions": [
+        7.25,
+        5.49,
+        6.49
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -523,10 +822,17 @@
       "label": "Tamarind",
       "src": "/assets/3d/jakarta/nature/tamarind.glb",
       "format": "glb",
-      "bytes": 24552,
-      "triangleCount": 1400,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 50860,
+      "triangleCount": 540,
+      "lodTriangleCount": 135,
+      "dimensions": [
+        4.15,
+        5.15,
+        3.79
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -535,10 +841,17 @@
       "label": "Palm Tree",
       "src": "/assets/3d/jakarta/nature/palm_tree.glb",
       "format": "glb",
-      "bytes": 7168,
-      "triangleCount": 256,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 71920,
+      "triangleCount": 784,
+      "lodTriangleCount": 196,
+      "dimensions": [
+        5.02,
+        5.09,
+        5.02
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -547,10 +860,17 @@
       "label": "Banana Tree",
       "src": "/assets/3d/jakarta/nature/banana_tree.glb",
       "format": "glb",
-      "bytes": 25892,
-      "triangleCount": 1560,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 18940,
+      "triangleCount": 164,
+      "lodTriangleCount": 41,
+      "dimensions": [
+        4.28,
+        3.02,
+        4.39
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -559,10 +879,17 @@
       "label": "Mango Tree",
       "src": "/assets/3d/jakarta/nature/mango_tree.glb",
       "format": "glb",
-      "bytes": 33124,
-      "triangleCount": 2120,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 50864,
+      "triangleCount": 540,
+      "lodTriangleCount": 135,
+      "dimensions": [
+        4.15,
+        5.15,
+        3.79
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -571,10 +898,17 @@
       "label": "Mango Fruiting",
       "src": "/assets/3d/jakarta/nature/mango_fruiting.glb",
       "format": "glb",
-      "bytes": 33796,
-      "triangleCount": 2200,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 101996,
+      "triangleCount": 1140,
+      "lodTriangleCount": 285,
+      "dimensions": [
+        4.15,
+        5.15,
+        3.79
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -583,10 +917,17 @@
       "label": "Tree Sapling",
       "src": "/assets/3d/jakarta/nature/tree_sapling.glb",
       "format": "glb",
-      "bytes": 29836,
-      "triangleCount": 1800,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 50872,
+      "triangleCount": 540,
+      "lodTriangleCount": 135,
+      "dimensions": [
+        2.57,
+        3.19,
+        2.35
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -595,10 +936,17 @@
       "label": "Flower Shrub",
       "src": "/assets/3d/jakarta/nature/flower_shrub.glb",
       "format": "glb",
-      "bytes": 28844,
-      "triangleCount": 1292,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 90564,
+      "triangleCount": 1012,
+      "lodTriangleCount": 253,
+      "dimensions": [
+        2.56,
+        1.46,
+        1.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -607,10 +955,17 @@
       "label": "Hedge",
       "src": "/assets/3d/jakarta/nature/hedge.glb",
       "format": "glb",
-      "bytes": 28840,
-      "triangleCount": 1292,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 47948,
+      "triangleCount": 512,
+      "lodTriangleCount": 128,
+      "dimensions": [
+        2.56,
+        1.33,
+        1.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -619,10 +974,17 @@
       "label": "Fern",
       "src": "/assets/3d/jakarta/nature/fern.glb",
       "format": "glb",
-      "bytes": 28844,
-      "triangleCount": 1292,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 47948,
+      "triangleCount": 512,
+      "lodTriangleCount": 128,
+      "dimensions": [
+        2.56,
+        1.33,
+        1.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -631,10 +993,17 @@
       "label": "Flower Planter",
       "src": "/assets/3d/jakarta/nature/flower_planter.glb",
       "format": "glb",
-      "bytes": 28848,
-      "triangleCount": 1292,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 90568,
+      "triangleCount": 1012,
+      "lodTriangleCount": 253,
+      "dimensions": [
+        2.56,
+        1.46,
+        1.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -643,10 +1012,17 @@
       "label": "Lotus Planter",
       "src": "/assets/3d/jakarta/nature/lotus_planter.glb",
       "format": "glb",
-      "bytes": 28844,
-      "triangleCount": 1292,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 34444,
+      "triangleCount": 324,
+      "lodTriangleCount": 81,
+      "dimensions": [
+        2.3,
+        1.22,
+        2.3
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -655,10 +1031,17 @@
       "label": "River Reeds",
       "src": "/assets/3d/jakarta/nature/river_reeds.glb",
       "format": "glb",
-      "bytes": 22588,
-      "triangleCount": 1640,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46828,
+      "triangleCount": 444,
+      "lodTriangleCount": 111,
+      "dimensions": [
+        2.4,
+        2.23,
+        1.4
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -667,10 +1050,17 @@
       "label": "Cloud Cluster",
       "src": "/assets/3d/jakarta/nature/cloud_cluster.glb",
       "format": "glb",
-      "bytes": 20576,
-      "triangleCount": 960,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 55560,
+      "triangleCount": 600,
+      "lodTriangleCount": 150,
+      "dimensions": [
+        5.99,
+        2.5,
+        3.4
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "trunk_cylinder",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -679,10 +1069,17 @@
       "label": "Street Lamp Modern",
       "src": "/assets/3d/jakarta/street_props/street_lamp_modern.glb",
       "format": "glb",
-      "bytes": 4508,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 12440,
+      "triangleCount": 88,
+      "lodTriangleCount": 22,
+      "dimensions": [
+        1.6,
+        4.83,
+        0.76
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -691,10 +1088,17 @@
       "label": "Street Lamp Vintage",
       "src": "/assets/3d/jakarta/street_props/street_lamp_vintage.glb",
       "format": "glb",
-      "bytes": 4512,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 33740,
+      "triangleCount": 324,
+      "lodTriangleCount": 81,
+      "dimensions": [
+        2.04,
+        4.87,
+        0.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -703,10 +1107,17 @@
       "label": "Power Pole",
       "src": "/assets/3d/jakarta/street_props/power_pole.glb",
       "format": "glb",
-      "bytes": 4508,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 23952,
+      "triangleCount": 208,
+      "lodTriangleCount": 52,
+      "dimensions": [
+        1.8,
+        5.6,
+        0.3
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -715,10 +1126,17 @@
       "label": "Cable Bundle",
       "src": "/assets/3d/jakarta/street_props/cable_bundle.glb",
       "format": "glb",
-      "bytes": 4512,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 24888,
+      "triangleCount": 220,
+      "lodTriangleCount": 55,
+      "dimensions": [
+        1.8,
+        5.6,
+        0.38
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -727,10 +1145,17 @@
       "label": "Street Sign",
       "src": "/assets/3d/jakarta/street_props/street_sign.glb",
       "format": "glb",
-      "bytes": 4508,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 23428,
+      "triangleCount": 216,
+      "lodTriangleCount": 54,
+      "dimensions": [
+        1.89,
+        3.2,
+        0.61
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -739,10 +1164,17 @@
       "label": "Laneway Sign",
       "src": "/assets/3d/jakarta/street_props/laneway_sign.glb",
       "format": "glb",
-      "bytes": 4512,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 23432,
+      "triangleCount": 216,
+      "lodTriangleCount": 54,
+      "dimensions": [
+        1.89,
+        3.2,
+        0.61
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -751,10 +1183,17 @@
       "label": "Direction Sign",
       "src": "/assets/3d/jakarta/street_props/direction_sign.glb",
       "format": "glb",
-      "bytes": 4508,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 23436,
+      "triangleCount": 216,
+      "lodTriangleCount": 54,
+      "dimensions": [
+        1.89,
+        3.2,
+        0.61
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -763,10 +1202,17 @@
       "label": "Bus Stop",
       "src": "/assets/3d/jakarta/street_props/bus_stop.glb",
       "format": "glb",
-      "bytes": 6612,
-      "triangleCount": 164,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 17368,
+      "triangleCount": 144,
+      "lodTriangleCount": 36,
+      "dimensions": [
+        3.1,
+        2.84,
+        2.0
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -775,10 +1221,17 @@
       "label": "Bus Shelter",
       "src": "/assets/3d/jakarta/street_props/bus_shelter.glb",
       "format": "glb",
-      "bytes": 6612,
-      "triangleCount": 164,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 17372,
+      "triangleCount": 144,
+      "lodTriangleCount": 36,
+      "dimensions": [
+        4.9,
+        2.84,
+        2.0
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -787,10 +1240,17 @@
       "label": "Traffic Cone",
       "src": "/assets/3d/jakarta/street_props/traffic_cone.glb",
       "format": "glb",
-      "bytes": 6612,
-      "triangleCount": 164,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 17308,
+      "triangleCount": 132,
+      "lodTriangleCount": 33,
+      "dimensions": [
+        0.65,
+        0.88,
+        0.65
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -799,10 +1259,17 @@
       "label": "Traffic Bollard",
       "src": "/assets/3d/jakarta/street_props/traffic_bollard.glb",
       "format": "glb",
-      "bytes": 7220,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 28400,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        2.2,
+        0.96,
+        0.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -811,10 +1278,17 @@
       "label": "Bench",
       "src": "/assets/3d/jakarta/street_props/bench.glb",
       "format": "glb",
-      "bytes": 3272,
-      "triangleCount": 48,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 17508,
+      "triangleCount": 168,
+      "lodTriangleCount": 42,
+      "dimensions": [
+        2.2,
+        1.1,
+        0.62
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -823,10 +1297,17 @@
       "label": "Trash Bin",
       "src": "/assets/3d/jakarta/street_props/trash_bin.glb",
       "format": "glb",
-      "bytes": 6612,
-      "triangleCount": 164,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 19124,
+      "triangleCount": 148,
+      "lodTriangleCount": 37,
+      "dimensions": [
+        1.4,
+        1.18,
+        0.65
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -835,10 +1316,17 @@
       "label": "Park Fence",
       "src": "/assets/3d/jakarta/street_props/park_fence.glb",
       "format": "glb",
-      "bytes": 7220,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 87444,
+      "triangleCount": 948,
+      "lodTriangleCount": 237,
+      "dimensions": [
+        4.2,
+        1.18,
+        0.15
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -847,10 +1335,17 @@
       "label": "Garden Fence",
       "src": "/assets/3d/jakarta/street_props/garden_fence.glb",
       "format": "glb",
-      "bytes": 7220,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 87448,
+      "triangleCount": 948,
+      "lodTriangleCount": 237,
+      "dimensions": [
+        4.2,
+        1.18,
+        0.15
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -859,10 +1354,17 @@
       "label": "Market Awning",
       "src": "/assets/3d/jakarta/street_props/market_awning.glb",
       "format": "glb",
-      "bytes": 6612,
-      "triangleCount": 164,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22348,
+      "triangleCount": 192,
+      "lodTriangleCount": 48,
+      "dimensions": [
+        3.96,
+        3.43,
+        2.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -871,10 +1373,17 @@
       "label": "Flagpole Indonesia",
       "src": "/assets/3d/jakarta/street_props/flagpole_indonesia.glb",
       "format": "glb",
-      "bytes": 6000,
-      "triangleCount": 128,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 21304,
+      "triangleCount": 196,
+      "lodTriangleCount": 49,
+      "dimensions": [
+        2.06,
+        6.02,
+        1.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -883,10 +1392,17 @@
       "label": "Billboard Blank",
       "src": "/assets/3d/jakarta/street_props/billboard_blank.glb",
       "format": "glb",
-      "bytes": 4512,
-      "triangleCount": 104,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22352,
+      "triangleCount": 192,
+      "lodTriangleCount": 48,
+      "dimensions": [
+        3.96,
+        3.43,
+        2.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -895,10 +1411,17 @@
       "label": "Food Cart",
       "src": "/assets/3d/jakarta/street_props/food_cart.glb",
       "format": "glb",
-      "bytes": 6612,
-      "triangleCount": 164,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 29804,
+      "triangleCount": 308,
+      "lodTriangleCount": 77,
+      "dimensions": [
+        2.56,
+        2.43,
+        1.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -907,10 +1430,17 @@
       "label": "Bicycle Rack",
       "src": "/assets/3d/jakarta/street_props/bicycle_rack.glb",
       "format": "glb",
-      "bytes": 7220,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 87448,
+      "triangleCount": 948,
+      "lodTriangleCount": 237,
+      "dimensions": [
+        4.2,
+        1.18,
+        0.15
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "prop_small",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -919,10 +1449,17 @@
       "label": "Angkot",
       "src": "/assets/3d/jakarta/vehicles/angkot.glb",
       "format": "glb",
-      "bytes": 9452,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46636,
+      "triangleCount": 460,
+      "lodTriangleCount": 115,
+      "dimensions": [
+        4.04,
+        2.22,
+        1.99
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -931,10 +1468,17 @@
       "label": "City Bus",
       "src": "/assets/3d/jakarta/vehicles/city_bus.glb",
       "format": "glb",
-      "bytes": 8796,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46640,
+      "triangleCount": 460,
+      "lodTriangleCount": 115,
+      "dimensions": [
+        7.04,
+        2.92,
+        2.58
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -943,10 +1487,17 @@
       "label": "Minibus",
       "src": "/assets/3d/jakarta/vehicles/minibus.glb",
       "format": "glb",
-      "bytes": 9416,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46636,
+      "triangleCount": 460,
+      "lodTriangleCount": 115,
+      "dimensions": [
+        5.04,
+        2.52,
+        2.24
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -955,10 +1506,17 @@
       "label": "Compact Car",
       "src": "/assets/3d/jakarta/vehicles/compact_car.glb",
       "format": "glb",
-      "bytes": 9452,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46644,
+      "triangleCount": 460,
+      "lodTriangleCount": 115,
+      "dimensions": [
+        3.94,
+        1.61,
+        1.99
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -967,10 +1525,17 @@
       "label": "Taxi Generic",
       "src": "/assets/3d/jakarta/vehicles/taxi_generic.glb",
       "format": "glb",
-      "bytes": 9456,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 47580,
+      "triangleCount": 472,
+      "lodTriangleCount": 118,
+      "dimensions": [
+        4.34,
+        1.77,
+        2.02
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -979,10 +1544,17 @@
       "label": "Light Truck",
       "src": "/assets/3d/jakarta/vehicles/light_truck.glb",
       "format": "glb",
-      "bytes": 9416,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46644,
+      "triangleCount": 460,
+      "lodTriangleCount": 115,
+      "dimensions": [
+        5.44,
+        2.38,
+        2.34
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -991,10 +1563,17 @@
       "label": "Pickup",
       "src": "/assets/3d/jakarta/vehicles/pickup.glb",
       "format": "glb",
-      "bytes": 8816,
-      "triangleCount": 264,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 46636,
+      "triangleCount": 460,
+      "lodTriangleCount": 115,
+      "dimensions": [
+        4.64,
+        1.91,
+        2.09
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1003,10 +1582,17 @@
       "label": "Scooter",
       "src": "/assets/3d/jakarta/vehicles/scooter.glb",
       "format": "glb",
-      "bytes": 7308,
-      "triangleCount": 212,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 33568,
+      "triangleCount": 324,
+      "lodTriangleCount": 81,
+      "dimensions": [
+        2.2,
+        1.35,
+        0.72
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1015,10 +1601,17 @@
       "label": "Motorcycle",
       "src": "/assets/3d/jakarta/vehicles/motorcycle.glb",
       "format": "glb",
-      "bytes": 7308,
-      "triangleCount": 212,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 33572,
+      "triangleCount": 324,
+      "lodTriangleCount": 81,
+      "dimensions": [
+        2.2,
+        1.35,
+        0.72
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1027,10 +1620,17 @@
       "label": "Bicycle",
       "src": "/assets/3d/jakarta/vehicles/bicycle.glb",
       "format": "glb",
-      "bytes": 7308,
-      "triangleCount": 212,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 33568,
+      "triangleCount": 324,
+      "lodTriangleCount": 81,
+      "dimensions": [
+        2.2,
+        1.35,
+        0.72
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "solid_aabb",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1039,10 +1639,17 @@
       "label": "Checkpoint Crystal",
       "src": "/assets/3d/jakarta/gameplay/checkpoint_crystal.glb",
       "format": "glb",
-      "bytes": 20584,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25144,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1051,10 +1658,17 @@
       "label": "Prism Portal",
       "src": "/assets/3d/jakarta/gameplay/prism_portal.glb",
       "format": "glb",
-      "bytes": 39084,
-      "triangleCount": 1796,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 20016,
+      "triangleCount": 200,
+      "lodTriangleCount": 50,
+      "dimensions": [
+        4.8,
+        4.12,
+        3.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1063,10 +1677,17 @@
       "label": "Quest Terminal",
       "src": "/assets/3d/jakarta/gameplay/quest_terminal.glb",
       "format": "glb",
-      "bytes": 20588,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25136,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1075,10 +1696,17 @@
       "label": "Save Totem",
       "src": "/assets/3d/jakarta/gameplay/save_totem.glb",
       "format": "glb",
-      "bytes": 20588,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25128,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1087,10 +1715,17 @@
       "label": "Spring Pad",
       "src": "/assets/3d/jakarta/gameplay/spring_pad.glb",
       "format": "glb",
-      "bytes": 9128,
-      "triangleCount": 344,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 22660,
+      "triangleCount": 208,
+      "lodTriangleCount": 52,
+      "dimensions": [
+        2.9,
+        0.94,
+        2.83
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1099,10 +1734,17 @@
       "label": "Moving Platform",
       "src": "/assets/3d/jakarta/gameplay/moving_platform.glb",
       "format": "glb",
-      "bytes": 9132,
-      "triangleCount": 344,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 15176,
+      "triangleCount": 112,
+      "lodTriangleCount": 28,
+      "dimensions": [
+        4.4,
+        0.58,
+        4.29
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1111,10 +1753,17 @@
       "label": "Floating Island",
       "src": "/assets/3d/jakarta/gameplay/floating_island.glb",
       "format": "glb",
-      "bytes": 8660,
-      "triangleCount": 344,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 17460,
+      "triangleCount": 132,
+      "lodTriangleCount": 33,
+      "dimensions": [
+        4.4,
+        1.49,
+        4.29
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1123,10 +1772,17 @@
       "label": "Race Arch",
       "src": "/assets/3d/jakarta/gameplay/race_arch.glb",
       "format": "glb",
-      "bytes": 38336,
-      "triangleCount": 1796,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 20012,
+      "triangleCount": 200,
+      "lodTriangleCount": 50,
+      "dimensions": [
+        4.8,
+        4.12,
+        3.1
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1135,10 +1791,17 @@
       "label": "Coin Star",
       "src": "/assets/3d/jakarta/gameplay/coin_star.glb",
       "format": "glb",
-      "bytes": 20588,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25028,
+      "triangleCount": 244,
+      "lodTriangleCount": 61,
+      "dimensions": [
+        1.5,
+        1.89,
+        1.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1147,10 +1810,17 @@
       "label": "Collectible Chest",
       "src": "/assets/3d/jakarta/gameplay/collectible_chest.glb",
       "format": "glb",
-      "bytes": 20580,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25144,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1159,10 +1829,17 @@
       "label": "Hazard Spinner",
       "src": "/assets/3d/jakarta/gameplay/hazard_spinner.glb",
       "format": "glb",
-      "bytes": 20584,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25136,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1171,10 +1848,17 @@
       "label": "Jump Platform",
       "src": "/assets/3d/jakarta/gameplay/jump_platform.glb",
       "format": "glb",
-      "bytes": 8660,
-      "triangleCount": 344,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 15172,
+      "triangleCount": 112,
+      "lodTriangleCount": 28,
+      "dimensions": [
+        4.4,
+        0.58,
+        4.29
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1183,10 +1867,17 @@
       "label": "Build Station",
       "src": "/assets/3d/jakarta/gameplay/build_station.glb",
       "format": "glb",
-      "bytes": 20588,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25136,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1195,10 +1886,17 @@
       "label": "Teleport Pad",
       "src": "/assets/3d/jakarta/gameplay/teleport_pad.glb",
       "format": "glb",
-      "bytes": 9136,
-      "triangleCount": 344,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 15172,
+      "triangleCount": 112,
+      "lodTriangleCount": 28,
+      "dimensions": [
+        2.9,
+        0.58,
+        2.83
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1207,10 +1905,17 @@
       "label": "Zipline Anchor",
       "src": "/assets/3d/jakarta/gameplay/zipline_anchor.glb",
       "format": "glb",
-      "bytes": 20580,
-      "triangleCount": 852,
-      "design": "original procedural stylized mesh",
-      "collision": "decorative",
+      "bytes": 25136,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        2.5,
+        2.83,
+        2.5
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
+      "collision": "interactive_trigger",
       "license": "Original BLOCKVERSE"
     },
     {
@@ -1219,9 +1924,16 @@
       "label": "Table Wood",
       "src": "/assets/3d/jakarta/interiors/table_wood.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 22416,
+      "triangleCount": 192,
+      "lodTriangleCount": 48,
+      "dimensions": [
+        1.4,
+        1.02,
+        0.85
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1231,9 +1943,16 @@
       "label": "Chair Wood",
       "src": "/assets/3d/jakarta/interiors/chair_wood.glb",
       "format": "glb",
-      "bytes": 3732,
-      "triangleCount": 72,
-      "design": "original procedural stylized mesh",
+      "bytes": 26428,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        0.62,
+        1.14,
+        0.58
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1243,9 +1962,16 @@
       "label": "Stool",
       "src": "/assets/3d/jakarta/interiors/stool.glb",
       "format": "glb",
-      "bytes": 3732,
-      "triangleCount": 72,
-      "design": "original procedural stylized mesh",
+      "bytes": 18568,
+      "triangleCount": 152,
+      "lodTriangleCount": 38,
+      "dimensions": [
+        0.62,
+        0.49,
+        0.58
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1255,9 +1981,16 @@
       "label": "Shelf Shop",
       "src": "/assets/3d/jakarta/interiors/shelf_shop.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 20324,
+      "triangleCount": 204,
+      "lodTriangleCount": 51,
+      "dimensions": [
+        1.6,
+        2.1,
+        0.68
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1267,9 +2000,16 @@
       "label": "Cashier Desk",
       "src": "/assets/3d/jakarta/interiors/cashier_desk.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 20188,
+      "triangleCount": 180,
+      "lodTriangleCount": 45,
+      "dimensions": [
+        2.0,
+        1.26,
+        0.85
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1279,9 +2019,16 @@
       "label": "Ceiling Fan",
       "src": "/assets/3d/jakarta/interiors/ceiling_fan.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 15076,
+      "triangleCount": 120,
+      "lodTriangleCount": 30,
+      "dimensions": [
+        1.95,
+        0.64,
+        1.95
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1291,9 +2038,16 @@
       "label": "Shop Fridge",
       "src": "/assets/3d/jakarta/interiors/shop_fridge.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 21260,
+      "triangleCount": 216,
+      "lodTriangleCount": 54,
+      "dimensions": [
+        1.6,
+        2.1,
+        0.72
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1303,9 +2057,16 @@
       "label": "Display Counter",
       "src": "/assets/3d/jakarta/interiors/display_counter.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 20192,
+      "triangleCount": 180,
+      "lodTriangleCount": 45,
+      "dimensions": [
+        2.0,
+        1.26,
+        0.85
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1315,9 +2076,16 @@
       "label": "Crate Wood",
       "src": "/assets/3d/jakarta/interiors/crate_wood.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 40368,
+      "triangleCount": 424,
+      "lodTriangleCount": 106,
+      "dimensions": [
+        0.94,
+        1.02,
+        0.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1327,9 +2095,16 @@
       "label": "Crate Plastic",
       "src": "/assets/3d/jakarta/interiors/crate_plastic.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 40376,
+      "triangleCount": 424,
+      "lodTriangleCount": 106,
+      "dimensions": [
+        0.94,
+        1.02,
+        0.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1339,9 +2114,16 @@
       "label": "Water Tank",
       "src": "/assets/3d/jakarta/interiors/water_tank.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 13792,
+      "triangleCount": 100,
+      "lodTriangleCount": 25,
+      "dimensions": [
+        1.3,
+        2.15,
+        1.3
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1351,9 +2133,16 @@
       "label": "Ac Unit",
       "src": "/assets/3d/jakarta/interiors/ac_unit.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 21256,
+      "triangleCount": 216,
+      "lodTriangleCount": 54,
+      "dimensions": [
+        0.98,
+        0.68,
+        0.67
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1363,9 +2152,16 @@
       "label": "Roof Antenna",
       "src": "/assets/3d/jakarta/interiors/roof_antenna.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 27096,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1375,9 +2171,16 @@
       "label": "Small Tv",
       "src": "/assets/3d/jakarta/interiors/small_tv.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 27088,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1387,9 +2190,16 @@
       "label": "Sign Blank",
       "src": "/assets/3d/jakarta/interiors/sign_blank.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 27092,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1399,9 +2209,16 @@
       "label": "Cafe Table",
       "src": "/assets/3d/jakarta/interiors/cafe_table.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 22416,
+      "triangleCount": 192,
+      "lodTriangleCount": 48,
+      "dimensions": [
+        1.4,
+        1.02,
+        0.85
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1411,9 +2228,16 @@
       "label": "Cafe Chair",
       "src": "/assets/3d/jakarta/interiors/cafe_chair.glb",
       "format": "glb",
-      "bytes": 3732,
-      "triangleCount": 72,
-      "design": "original procedural stylized mesh",
+      "bytes": 26428,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        0.62,
+        1.14,
+        0.58
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1423,9 +2247,16 @@
       "label": "Lamp Hanging",
       "src": "/assets/3d/jakarta/interiors/lamp_hanging.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 27096,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1435,9 +2266,16 @@
       "label": "Flower Pot",
       "src": "/assets/3d/jakarta/interiors/flower_pot.glb",
       "format": "glb",
-      "bytes": 15664,
-      "triangleCount": 680,
-      "design": "original procedural stylized mesh",
+      "bytes": 40368,
+      "triangleCount": 424,
+      "lodTriangleCount": 106,
+      "dimensions": [
+        0.94,
+        1.02,
+        0.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1447,9 +2285,16 @@
       "label": "Carpet",
       "src": "/assets/3d/jakarta/interiors/carpet.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 27084,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1459,9 +2304,16 @@
       "label": "Board School",
       "src": "/assets/3d/jakarta/interiors/board_school.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 27096,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1471,9 +2323,16 @@
       "label": "School Desk",
       "src": "/assets/3d/jakarta/interiors/school_desk.glb",
       "format": "glb",
-      "bytes": 6668,
-      "triangleCount": 132,
-      "design": "original procedural stylized mesh",
+      "bytes": 22416,
+      "triangleCount": 192,
+      "lodTriangleCount": 48,
+      "dimensions": [
+        1.4,
+        1.02,
+        0.85
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1483,9 +2342,16 @@
       "label": "Market Basket",
       "src": "/assets/3d/jakarta/interiors/market_basket.glb",
       "format": "glb",
-      "bytes": 15660,
-      "triangleCount": 680,
-      "design": "original procedural stylized mesh",
+      "bytes": 40376,
+      "triangleCount": 424,
+      "lodTriangleCount": 106,
+      "dimensions": [
+        0.94,
+        1.02,
+        0.8
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1495,9 +2361,16 @@
       "label": "Bamboo Bench",
       "src": "/assets/3d/jakarta/interiors/bamboo_bench.glb",
       "format": "glb",
-      "bytes": 3732,
-      "triangleCount": 72,
-      "design": "original procedural stylized mesh",
+      "bytes": 26428,
+      "triangleCount": 236,
+      "lodTriangleCount": 59,
+      "dimensions": [
+        1.8,
+        1.14,
+        0.58
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     },
@@ -1507,9 +2380,16 @@
       "label": "Lamp Neon",
       "src": "/assets/3d/jakarta/interiors/lamp_neon.glb",
       "format": "glb",
-      "bytes": 5068,
-      "triangleCount": 108,
-      "design": "original procedural stylized mesh",
+      "bytes": 27092,
+      "triangleCount": 252,
+      "lodTriangleCount": 63,
+      "dimensions": [
+        1.6,
+        1.62,
+        0.32
+      ],
+      "materialAtlas": "/assets/3d/jakarta/atlas_jakarta_v2.png",
+      "design": "original Argon V2 stylized Indonesian architectural mesh with embedded PBR detail atlas & AO vertex shading",
       "collision": "decorative",
       "license": "Original BLOCKVERSE"
     }

@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { initializeApp } from 'firebase/app';
@@ -7,6 +8,8 @@ import { Validator, MAX_WORLD_OBJECTS, ALLOWED_OBJECT_TYPES, ALLOWED_ACCESSORIES
 import './styles.css';
 import './mobile.css';
 import { CengkarengExploration, makeCengkarengMapUI } from './world/cengkareng.js';
+import { GamepadController } from './input/gamepad.js';
+import { NpcSchool } from './npc/client.js';
 
 // VITE_ variables are PUBLIC configuration, NEVER backend secrets.
 const __app_id = import.meta.env.VITE_APP_ID || 'blockverse-mvp-app';
@@ -996,6 +999,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
     let currentWorldName = 'hub'; // 'hub' | 'obby' | 'builder' | 'coindash' | 'cengkareng'
     let explorer = null;
     let explorerUIRelease = null;
+    let npcSchool = null;
     let gameState = 'menu'; // 'menu' | 'playing' | 'paused' | 'results'
     let builderSubMode = 'edit'; // 'edit' | 'test'
 
@@ -1171,6 +1175,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
      * 8. BUILD THE 4 WORLDS: HUB, SKY OBBY (15 OBSTACLES), BUILDER ISLAND, COIN DASH
      ********************************************************************/
     function clearWorldScene() {
+      if (npcSchool) {npcSchool.dispose();npcSchool=null;}
       if (explorer) { explorer.dispose(); explorer = null; }
       if (explorerUIRelease) { explorerUIRelease(); explorerUIRelease = null; }
       while (worldGroup.children.length > 0) {
@@ -1267,15 +1272,26 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         scene.fog = new THREE.FogExp2(0xb7e3eb, 0.0022);
         roomBadge.textContent = '🗺️ Cengkareng Explorer';
         addBoxPlatform(0,-.18,0,1440,.35,1100,'#78ba86');
-        explorer = new CengkarengExploration(worldGroup);
-        playerPhys.spawnPos.set(160,1.2,20);
+        addPortalArch(150, 0.1, 34, '#4CC9F0', 'SUNRISE PLAZA', 'Kembali ke Hub Utama', 'hub');
+        explorer = new CengkarengExploration(worldGroup, {
+          quality: document.getElementById('setting-quality')?.value || 'high',
+          onDistrictVisited: ({ district, visitedCount, totalDistricts }) => {
+            sfx.play('checkpoint');
+            gamepadCtrl.pulse(0.45, 95);
+            backend.session.stars += 5;
+            updateAllMenusUI();
+            showToast(`🏮 Lentera ${district.name} ditemukan! (${visitedCount}/${totalDistricts} Distrik • +5 ★)`, 'sun');
+          }
+        });
+        playerPhys.spawnPos.set(150,1.2,20);
         explorerUIRelease = makeCengkarengMapUI({
+          explorer,
           getPlayer: () => playerPhys.pos,
           onTravel: (district) => {
             if (!district){loadWorld('hub');return;}
             playerPhys.spawnPos.set(district.cx,1.2,district.cz+20);
             respawnPlayer(false);
-            showToast(`📍 ${district.name}`, 'sky');
+            showToast(`📍 ${district.name} — ${district.hint || ''}`, 'sky');
           }
         });
       } else if (worldName === 'coindash') {
@@ -1291,6 +1307,9 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
 
       decorateWorldWithGeneratedAssets(worldName);
+      npcSchool = new NpcSchool({root:worldGroup,getPlayer:()=>playerPhys.pos,
+        getWorld:()=>currentWorldName,isPlaying:()=>gameState==='playing'});
+      npcSchool.showWorld(worldName);
       respawnPlayer(false);
       if (worldName === 'cengkareng' && explorer) {
         explorer.initialize().then(({assetCount,districts}) => {
@@ -1957,20 +1976,44 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
     });
 
-    // Touch look: swipe the canvas to orbit camera (joystick buttons remain separate).
+    // Touch look & two-finger pinch-to-zoom on canvas (joystick buttons remain separate).
     let touchLookId = null, touchLookX=0, touchLookY=0;
+    const activeTouchPoints = new Map();
+    let lastPinchDist = null;
     renderer.domElement.addEventListener('pointerdown', e => {
-      if (e.pointerType !== 'touch' || touchLookId!==null) return;
-      touchLookId=e.pointerId;touchLookX=e.clientX;touchLookY=e.clientY;
-      renderer.domElement.setPointerCapture(e.pointerId);
+      if (e.pointerType !== 'touch') return;
+      activeTouchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (activeTouchPoints.size === 1 && touchLookId === null) {
+        touchLookId = e.pointerId; touchLookX = e.clientX; touchLookY = e.clientY;
+        renderer.domElement.setPointerCapture(e.pointerId);
+      } else if (activeTouchPoints.size === 2) {
+        const pts = Array.from(activeTouchPoints.values());
+        lastPinchDist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      }
     });
-    renderer.domElement.addEventListener('pointermove',e=>{
-      if(e.pointerId!==touchLookId || gameState!=='playing') return;
-      const dx=e.clientX-touchLookX,dy=e.clientY-touchLookY;touchLookX=e.clientX;touchLookY=e.clientY;
-      const sens=.006*camState.sensitivity;camState.yaw-=dx*sens;
-      camState.pitch=Math.max(.08,Math.min(1.35,camState.pitch+dy*sens*(camState.invertY?-1:1)));
+    renderer.domElement.addEventListener('pointermove', e => {
+      if (e.pointerType === 'touch' && activeTouchPoints.has(e.pointerId)) {
+        activeTouchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      }
+      if (activeTouchPoints.size === 2 && gameState === 'playing') {
+        const pts = Array.from(activeTouchPoints.values());
+        const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        if (lastPinchDist !== null) {
+          camState.distance = Math.max(4, Math.min(22, camState.distance - (d - lastPinchDist) * 0.025));
+        }
+        lastPinchDist = d;
+        return;
+      }
+      if (e.pointerId !== touchLookId || gameState !== 'playing') return;
+      const dx = e.clientX - touchLookX, dy = e.clientY - touchLookY; touchLookX = e.clientX; touchLookY = e.clientY;
+      const sens = .006 * camState.sensitivity; camState.yaw -= dx * sens;
+      camState.pitch = Math.max(.08, Math.min(1.35, camState.pitch + dy * sens * (camState.invertY ? -1 : 1)));
     });
-    const releaseLook=e=>{if(e.pointerId===touchLookId)touchLookId=null;};
+    const releaseLook = e => {
+      activeTouchPoints.delete(e.pointerId);
+      if (activeTouchPoints.size < 2) lastPinchDist = null;
+      if (e.pointerId === touchLookId) touchLookId = null;
+    };
     renderer.domElement.addEventListener('pointerup',releaseLook);
     renderer.domElement.addEventListener('pointercancel',releaseLook);
     renderer.domElement.addEventListener('wheel', (e) => {
@@ -1979,19 +2022,73 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
 
     renderer.domElement.addEventListener('contextmenu', (e) => e.preventDefault());
 
+    // Cross-Platform Gamepad Controller (Android, macOS, Windows, iOS/iPadOS Safari)
+    const gamepadCtrl = new GamepadController({
+      getGameState: () => gameState,
+      onStatusChange: (status) => {
+        const badge = document.getElementById('hud-gamepad-badge');
+        const label = document.getElementById('hud-gamepad-label');
+        const settingStatus = document.getElementById('setting-gp-status');
+        if (status.connected) {
+          if (badge) { badge.classList.remove('hidden'); badge.classList.add('inline-flex'); }
+          if (label) label.textContent = `${status.profileName} (${status.os})`;
+          if (settingStatus) {
+            settingStatus.textContent = `${status.profileName} • ${status.os}`;
+            settingStatus.className = 'px-2 py-0.5 rounded bg-bvGrass/20 text-bvGrass font-mono text-[10px] font-bold';
+          }
+          showToast(`🎮 ${status.profileName} terhubung di ${status.os}! (${status.labels.south}: Lompat, ${status.labels.west}: Interaksi)`, 'grass');
+        } else {
+          if (badge) { badge.classList.add('hidden'); badge.classList.remove('inline-flex'); }
+          if (settingStatus) {
+            settingStatus.textContent = 'Tekan tombol di controller';
+            settingStatus.className = 'px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px]';
+          }
+        }
+      },
+      onAction: (action) => {
+        if (action === 'escape') {
+          toggleModal('modal-settings');
+        } else if (action === 'interact' && gameState === 'playing') {
+          if (currentWorldName === 'builder' && builderSubMode === 'edit') {
+            handleBuilderCanvasClick(window.innerWidth * 0.5, window.innerHeight * 0.5);
+          } else {
+            triggerNearestPortalInteraction();
+          }
+        } else if (action === 'emoteOrBuilderTest' && gameState === 'playing') {
+          if (currentWorldName === 'builder') toggleBuilderTestMode();
+          else document.getElementById('emote-wheel-modal')?.classList.toggle('hidden');
+        } else if (action === 'mapOrWorlds' && gameState === 'playing') {
+          if (currentWorldName === 'cengkareng') {
+            document.getElementById('bv-nearest-district')?.click();
+          } else {
+            toggleModal('modal-worlds');
+          }
+        } else if (action === 'respawnOrRotate' && gameState === 'playing') {
+          if (currentWorldName === 'builder' && builderSubMode === 'edit') transformSelectedObject('rotY');
+          else respawnPlayer(true);
+        }
+      }
+    });
+    window.__bvGamepad = gamepadCtrl;
+
     function respawnPlayer(countAsFall = false) {
       playerPhys.pos.copy(playerPhys.spawnPos);
       playerPhys.vel.set(0, 0, 0);
       playerPhys.grounded = false;
       if (countAsFall) {
         sfx.play('fall');
+        gamepadCtrl.pulse(0.55, 110);
         if ((currentWorldName === 'obby' || currentWorldName === 'coindash') && backend.activeObbyAttempt) {
           backend.activeObbyAttempt.deaths += 1;
         }
       }
     }
 
-    function updatePhysicsAndPlayer(dt, nowSec) {
+    function updatePhysicsAndPlayer(dt, nowSec, gpState = null) {
+      const activeColliders = (currentWorldName === 'cengkareng' && explorer)
+        ? colliders.concat(explorer.getActiveColliders(playerPhys.pos))
+        : colliders;
+
       // 1. Update Moving Platforms & store frame delta on collider
       for (const c of colliders) {
         if (c.movingCfg) {
@@ -2023,7 +2120,19 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         playerPhys.pos.z += playerPhys.groundPlatform.dz || 0;
       }
 
-      // 2. Gather Movement Input relative to Camera Yaw
+      // Apply Gamepad right-stick camera orbit & bumper zoom if active
+      if (gpState) {
+        if (Math.abs(gpState.lookYaw) > 0.0001 || Math.abs(gpState.lookPitch) > 0.0001) {
+          camState.yaw -= gpState.lookYaw * camState.sensitivity;
+          const yDir = camState.invertY ? -1 : 1;
+          camState.pitch = Math.max(0.08, Math.min(1.35, camState.pitch + gpState.lookPitch * camState.sensitivity * yDir));
+        }
+        if (Math.abs(gpState.zoomDelta) > 0.001) {
+          camState.distance = Math.max(4, Math.min(22, camState.distance + gpState.zoomDelta));
+        }
+      }
+
+      // 2. Gather Movement Input relative to Camera Yaw (Keyboard + Touch + Gamepad)
       let moveForward = 0;
       let moveRight = 0;
       if (keys['KeyW'] || keys['ArrowUp']) moveForward += 1;
@@ -2035,9 +2144,14 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         moveRight += touchInput.x;
         moveForward -= touchInput.y;
       }
+      if (gpState && (Math.abs(gpState.moveX) > 0.01 || Math.abs(gpState.moveY) > 0.01)) {
+        moveRight += gpState.moveX;
+        moveForward -= gpState.moveY;
+      }
 
-      const isSprinting = !!(keys['ShiftLeft'] || keys['ShiftRight'] || touchInput.sprint);
-      const speed = isSprinting ? 8.2 : 5.4;
+      const isSprinting = !!(keys['ShiftLeft'] || keys['ShiftRight'] || touchInput.sprint || gpState?.sprint);
+      const inputMag = Math.min(1, Math.hypot(moveForward, moveRight));
+      const speed = (isSprinting ? 8.2 : 5.4) * (inputMag > 0 ? Math.max(0.35, inputMag) : 1);
 
       const forwardVec = new THREE.Vector3(-Math.sin(camState.yaw), 0, -Math.cos(camState.yaw));
       const rightVec = new THREE.Vector3(Math.cos(camState.yaw), 0, -Math.sin(camState.yaw));
@@ -2061,12 +2175,13 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
 
       // 3. Single Ground Jump
-      if ((keys['Space'] || touchInput.jumpPressed) && playerPhys.grounded) {
+      if ((keys['Space'] || touchInput.jumpPressed || gpState?.jumpJustPressed) && playerPhys.grounded) {
         playerPhys.vel.y = 10.2;
         playerPhys.grounded = false;
         playerPhys.groundPlatform = null;
         touchInput.jumpPressed = false;
         sfx.play('jump');
+        gamepadCtrl.pulse(0.25, 45);
       }
 
       // 4. Gravity
@@ -2079,7 +2194,10 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
 
       // Move X
       playerPhys.pos.x += playerPhys.vel.x * dt;
-      for (const c of colliders) {
+      if (currentWorldName === 'cengkareng') {
+        playerPhys.pos.x = Math.max(-495, Math.min(495, playerPhys.pos.x));
+      }
+      for (const c of activeColliders) {
         if (playerPhys.pos.y + h > c.minY + 0.15 && playerPhys.pos.y < c.maxY - 0.15 &&
             playerPhys.pos.z + r > c.minZ && playerPhys.pos.z - r < c.maxZ &&
             playerPhys.pos.x + r > c.minX && playerPhys.pos.x - r < c.maxX) {
@@ -2099,7 +2217,10 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
 
       // Move Z
       playerPhys.pos.z += playerPhys.vel.z * dt;
-      for (const c of colliders) {
+      if (currentWorldName === 'cengkareng') {
+        playerPhys.pos.z = Math.max(-485, Math.min(485, playerPhys.pos.z));
+      }
+      for (const c of activeColliders) {
         if (playerPhys.pos.y + h > c.minY + 0.15 && playerPhys.pos.y < c.maxY - 0.15 &&
             playerPhys.pos.x + r > c.minX && playerPhys.pos.x - r < c.maxX &&
             playerPhys.pos.z + r > c.minZ && playerPhys.pos.z - r < c.maxZ) {
@@ -2123,7 +2244,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       playerPhys.grounded = false;
       playerPhys.groundPlatform = null;
 
-      for (const c of colliders) {
+      for (const c of activeColliders) {
         if (playerPhys.pos.x + r > c.minX && playerPhys.pos.x - r < c.maxX &&
             playerPhys.pos.z + r > c.minZ && playerPhys.pos.z - r < c.maxZ) {
           // Landing on top
@@ -2419,6 +2540,13 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         el.classList.add('hidden');
         el.classList.remove('flex');
       }
+      const anyModalOpen = Array.from(document.querySelectorAll('.bv-modal-backdrop')).some(
+        (m) => !m.classList.contains('hidden')
+      );
+      const hudTop = document.getElementById('hud-topbar');
+      const canvasWrap = document.getElementById('game-canvas-container');
+      if (hudTop) hudTop.inert = anyModalOpen;
+      if (canvasWrap) canvasWrap.inert = anyModalOpen;
     }
 
     function renderEmoteWheelButtons() {
@@ -2773,6 +2901,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       });
       document.getElementById('setting-quality').addEventListener('change', (e) => {
         const q = e.target.value;
+        if (explorer) explorer.setQuality(q);
         if (q === 'low') {
           renderer.shadowMap.enabled = false;
           renderer.setPixelRatio(1);
@@ -2793,6 +2922,18 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       document.getElementById('setting-showfps').addEventListener('change', (e) => {
         document.getElementById('hud-dev-stats').classList.toggle('hidden', !e.target.checked);
       });
+      const gpDeadzoneEl = document.getElementById('setting-gp-deadzone');
+      if (gpDeadzoneEl) {
+        gpDeadzoneEl.addEventListener('input', (e) => {
+          gamepadCtrl.deadzone = Math.max(0.05, Math.min(0.35, Number(e.target.value) / 100));
+        });
+      }
+      const gpVibEl = document.getElementById('setting-gp-vibration');
+      if (gpVibEl) {
+        gpVibEl.addEventListener('change', (e) => {
+          gamepadCtrl.vibrationEnabled = e.target.checked;
+        });
+      }
       document.getElementById('btn-return-mainmenu').addEventListener('click', () => {
         if (currentWorldName === 'builder' && builderState.unsavedChanges) {
           showToast('Menyimpan draf dunia otomatis sebelum ke menu...', 'sun');
@@ -2959,6 +3100,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
     let frameCounter = 0;
     let fpsTimer = performance.now();
 
+    let lastMeasuredFps = 60;
     function animateLoop() {
       requestAnimationFrame(animateLoop);
 
@@ -2967,10 +3109,15 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       lastFrameTime = now;
       const nowSec = now / 1000;
 
+      const gpState = gamepadCtrl.poll(dt, now);
+
       frameCounter++;
       if (now - fpsTimer >= 500) {
         const fps = Math.round((frameCounter * 1000) / (now - fpsTimer));
+        lastMeasuredFps = fps;
         document.getElementById('stat-fps').textContent = String(fps);
+        const drawsEl = document.getElementById('stat-draws');
+        if (drawsEl) drawsEl.textContent = String(renderer.info.render.calls);
         // Adaptive WebGL resolution on mobile, with a 5-second cooldown to avoid oscillation.
         if (touchDevice && now - (window.__lastRenderQualityAdjust || 0) > 5000) {
           const currentRatio = renderer.getPixelRatio();
@@ -2991,7 +3138,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
 
       if (gameState === 'playing') {
-        updatePhysicsAndPlayer(dt, nowSec);
+        updatePhysicsAndPlayer(dt, nowSec, gpState);
         checkPortalProximity();
 
         if ((currentWorldName === 'obby' || currentWorldName === 'coindash') && backend.activeObbyAttempt && !backend.activeObbyAttempt.completed) {
@@ -3008,19 +3155,59 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         camera.lookAt(0, 2, 0);
       }
 
-      if (currentWorldName === 'cengkareng' && explorer) explorer.update(playerPhys.pos,now);
+      if (currentWorldName === 'cengkareng' && explorer) explorer.update(playerPhys.pos, now);
+      npcSchool?.update(now);
       mpManager.updateInterpolations(dt, now);
       renderProjectedLabels(now);
       renderer.render(scene, camera);
+
+      window.__bvTelemetry = {
+        fps: lastMeasuredFps,
+        drawCalls: renderer.info.render.calls,
+        triangles: renderer.info.render.triangles,
+        geometries: renderer.info.memory.geometries,
+        textures: renderer.info.memory.textures,
+        world: currentWorldName,
+        pos: [
+          Number(playerPhys.pos.x.toFixed(2)),
+          Number(playerPhys.pos.y.toFixed(2)),
+          Number(playerPhys.pos.z.toFixed(2))
+        ],
+        gamepadConnected: gamepadCtrl.connected,
+        gamepadProfile: gamepadCtrl.profile
+      };
     }
 
     window.onload = async function () {
       await backend.init();
+      if(touchDevice) document.getElementById('hud-dev-stats')?.classList.add('hidden');
       renderEmoteWheelButtons();
       renderBuilderToolbarUI();
       renderAvatarEditorUI();
       bindUIEvents();
       loadWorld('hub');
       updateAllMenusUI();
+      window.__bvRuntime = {
+        enterWorld: async (worldName) => {
+          document.getElementById('screen-home').classList.add('hidden');
+          document.getElementById('hud-topbar').classList.remove('hidden');
+          document.getElementById('hud-controls-hint').classList.remove('hidden');
+          gameState = 'playing';
+          await loadWorld(worldName);
+        },
+        teleport: (x, y, z, yaw = 0, pitch = 0.28) => {
+          playerPhys.pos.set(x, y, z);
+          playerPhys.vel.set(0, 0, 0);
+          camState.yaw = yaw;
+          camState.pitch = pitch;
+          if (currentWorldName === 'cengkareng' && explorer) {
+            explorer.lastAt = 0;
+            explorer.update(playerPhys.pos, performance.now());
+          }
+        },
+        getExplorer: () => explorer,
+        getGamepad: () => gamepadCtrl,
+        getRenderer: () => renderer
+      };
       animateLoop();
     };
