@@ -31,3 +31,23 @@ html,body,#game-canvas-container {touch-action:pan-x pan-y;overscroll-behavior:n
 @media(max-width:500px){#jakarta-world-panel{width:174px;}#bv-city-minimap{width:146px;}#jakarta-world-panel:has(.bv-map-expanded) {max-height:64vh;overflow-y:auto;overscroll-behavior:contain;}#touch-controls button{font-size:11px;}#screen-home .bv-panel{padding:14px!important;}#modal-worlds .bv-panel{padding:14px!important;}#hud-topbar .bv-panel{font-size:10px;}}
 @media(orientation:portrait) and (max-width:650px){#touch-controls{bottom:max(20px,env(safe-area-inset-bottom));}#joystick-zone{width:112px;height:112px;}#hud-controls-hint{display:none!important;}}
 @media(prefers-reduced-motion:reduce){.bv-btn,#touch-controls{transition:none!important;}.animate-float{animation:none!important;}}
+
+/* Roadmap mobile HUD v2: preserve safe-area, don't cover playfield with diagnostic panels */
+@media(max-width:700px){
+ #hud-dev-stats{display:none!important;}
+ #hud-topbar{align-items:flex-start;max-height:114px;overflow:hidden;}
+ #hud-topbar>div:last-child{gap:3px;}
+ #hud-topbar .bv-panel{border-radius:10px;backdrop-filter:blur(4px);}
+ #hud-topbar button{padding:6px!important;}
+ #jakarta-world-panel.bv-map-collapsed{width:auto;min-width:124px;max-width:45vw;top:max(120px,env(safe-area-inset-top) + 106px);padding:7px 9px;}
+ #jakarta-world-panel.bv-map-collapsed .bv-city-header strong{font-size:11px;}
+ #jakarta-world-panel.bv-map-collapsed .bv-city-header small{display:none;}
+ #bv-npc-dialog{z-index:80;}
+ #bv-npc-nearby{z-index:70;}
+}
+@media(max-height:520px) and (orientation:landscape){
+ #hud-topbar{max-height:74px;}
+ #jakarta-world-panel{top:max(74px,env(safe-area-inset-top) + 67px);}
+ #bv-npc-dialog{max-height:85dvh;max-width:min(410px,47vw);}
+ #bv-npc-nearby{bottom:max(72px,env(safe-area-inset-bottom) + 60px);}
+}
