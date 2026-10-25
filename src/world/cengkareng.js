@@ -524,6 +524,11 @@ export function makeCengkarengMapUI({onTravel,getPlayer,explorer}){
     <small id="bv-osm-attribution" class="bv-map-disclaimer">Denah game fiksi terinspirasi Cengkareng, bukan peta navigasi.</small>
   `;
   document.body.appendChild(card);
+  // Phones start with a compact map badge so movement and game world remain visible.
+  if(typeof matchMedia==='function' && matchMedia('(max-width: 700px)').matches){
+    card.classList.add('bv-map-collapsed');
+    const toggle=card.querySelector('#bv-map-toggle');toggle.textContent='+';toggle.setAttribute('aria-expanded','false');
+  }
 
   const buttons=card.querySelector('#bv-city-districts');
   for(const [i,d] of DISTRICTS.entries()){

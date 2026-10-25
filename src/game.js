@@ -9,6 +9,7 @@ import './styles.css';
 import './mobile.css';
 import { CengkarengExploration, makeCengkarengMapUI } from './world/cengkareng.js';
 import { GamepadController } from './input/gamepad.js';
+import { NpcSchool } from './npc/client.js';
 
 // VITE_ variables are PUBLIC configuration, NEVER backend secrets.
 const __app_id = import.meta.env.VITE_APP_ID || 'blockverse-mvp-app';
@@ -998,6 +999,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
     let currentWorldName = 'hub'; // 'hub' | 'obby' | 'builder' | 'coindash' | 'cengkareng'
     let explorer = null;
     let explorerUIRelease = null;
+    let npcSchool = null;
     let gameState = 'menu'; // 'menu' | 'playing' | 'paused' | 'results'
     let builderSubMode = 'edit'; // 'edit' | 'test'
 
@@ -1173,6 +1175,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
      * 8. BUILD THE 4 WORLDS: HUB, SKY OBBY (15 OBSTACLES), BUILDER ISLAND, COIN DASH
      ********************************************************************/
     function clearWorldScene() {
+      if (npcSchool) {npcSchool.dispose();npcSchool=null;}
       if (explorer) { explorer.dispose(); explorer = null; }
       if (explorerUIRelease) { explorerUIRelease(); explorerUIRelease = null; }
       while (worldGroup.children.length > 0) {
@@ -1304,6 +1307,9 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
 
       decorateWorldWithGeneratedAssets(worldName);
+      npcSchool = new NpcSchool({root:worldGroup,getPlayer:()=>playerPhys.pos,
+        getWorld:()=>currentWorldName,isPlaying:()=>gameState==='playing'});
+      npcSchool.showWorld(worldName);
       respawnPlayer(false);
       if (worldName === 'cengkareng' && explorer) {
         explorer.initialize().then(({assetCount,districts}) => {
@@ -3150,6 +3156,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
 
       if (currentWorldName === 'cengkareng' && explorer) explorer.update(playerPhys.pos, now);
+      npcSchool?.update(now);
       mpManager.updateInterpolations(dt, now);
       renderProjectedLabels(now);
       renderer.render(scene, camera);
@@ -3173,6 +3180,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
 
     window.onload = async function () {
       await backend.init();
+      if(touchDevice) document.getElementById('hud-dev-stats')?.classList.add('hidden');
       renderEmoteWheelButtons();
       renderBuilderToolbarUI();
       renderAvatarEditorUI();
