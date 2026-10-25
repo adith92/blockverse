@@ -141,7 +141,9 @@ export function createNpcApi({env=process.env,fetchImpl=fetch,ttsImpl=piperWav}=
   }
   const voiceMatch=/^\/api\/npc\/speech\/([0-9a-f-]{36})$/.exec(pathname);
   if(voiceMatch&&req.method==='GET'){
-   if(!origin){json(res,403,{error:'origin_required'});return true;}
+   // Same-origin browser GET normally sends Sec-Fetch-Site, NOT Origin.
+   // Allow it only with an unguessable one-time speech ID; block cross-site embedding.
+   if(req.headers['sec-fetch-site']==='cross-site'){json(res,403,{error:'same_site_only'});return true;}
    const ip=req.socket.remoteAddress||'unknown';
    if(limited(ip)){json(res,429,{error:'please_wait'});return true;}
    cleanupVoices();
