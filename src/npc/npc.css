@@ -1,0 +1,19 @@
+#bv-npc-nearby{position:fixed;z-index:42;left:50%;bottom:max(110px,calc(env(safe-area-inset-bottom) + 105px));transform:translateX(-50%);padding:13px 19px;color:#14213d;background:#ffdf75;border:3px solid #14213d;border-radius:22px;font:700 16px Fredoka,sans-serif;box-shadow:0 8px 0 #203f4e;cursor:pointer;min-height:48px;white-space:nowrap;}
+#bv-npc-nearby[hidden],#bv-npc-dialog[hidden],#bv-npc-dialog [hidden]{display:none!important;}
+#bv-npc-dialog{position:fixed;z-index:55;right:max(14px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));width:min(400px,calc(100vw - 28px));max-height:min(78dvh,660px);overflow:auto;background:#162846f2;border:3px solid #5bc9e2;border-radius:24px;box-shadow:0 16px 45px #000b;color:#fafbff;padding:18px;font-family:"Plus Jakarta Sans",system-ui,sans-serif;}
+.bv-npc-header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.bv-npc-header>div{display:flex;flex-direction:column;gap:3px}.bv-npc-tag{font-size:12px;color:#6edcbd;font-weight:700}.bv-npc-header strong{font-family:Fredoka,sans-serif;font-size:26px;color:#ffcb47}.bv-npc-header small{color:#c0d1ee}.bv-npc-header button{background:#344866;color:white;border-radius:12px;border:1px solid #8eaccd;width:46px;height:46px;font-size:19px;cursor:pointer}
+#bv-npc-reply{background:#253d59;padding:13px;border-radius:14px;font-size:15px;line-height:1.6;min-height:68px;overflow-wrap:anywhere}
+.bv-npc-privacy{font-size:11px;color:#c9d6ef}
+#bv-npc-topics{display:flex;flex-wrap:wrap;gap:8px}
+#bv-npc-topics button,.bv-npc-actions button,#bv-npc-freeform button{font-weight:700;font-size:13px;border:1px solid #9ed8e6;border-radius:13px;padding:10px 13px;background:#24456b;color:#f4f7fb;cursor:pointer;min-height:46px}
+.bv-npc-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.bv-npc-actions button:first-child{background:#fed676;color:#15203c;border-color:#fed676}
+#bv-npc-freeform{margin-top:15px;display:grid;gap:7px}#bv-npc-freeform label{font-size:12px}#bv-npc-question{font-size:16px;min-height:45px;background:#fff;color:#123;padding:9px;border-radius:11px;border:2px solid #7dcddd}
+#bv-npc-dialog button:focus-visible,#bv-npc-nearby:focus-visible{outline:3px solid #ffd56b;outline-offset:3px}
+@media(max-width:700px){#bv-npc-dialog{left:8px;right:8px;bottom:max(9px,env(safe-area-inset-bottom));width:auto;max-height:56dvh;padding:12px;border-radius:18px;}#bv-npc-nearby{bottom:max(163px,calc(env(safe-area-inset-bottom) + 153px));font-size:13px;padding:9px 13px;}#bv-npc-topics button{flex:1 1 38%}}
+
+#bv-npc-quiz-options{margin:12px 0;padding:11px;border:1px solid #89d5da;border-radius:13px;}
+#bv-npc-quiz-options legend{color:#ffdb75;font-weight:800;font-size:14px;padding:0 6px;}
+#bv-npc-quiz-choices{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0;}
+#bv-npc-quiz-choices button{min-height:44px;text-align:left;background:#2c4d72;color:#fff;border:1px solid #91cfe7;border-radius:10px;padding:9px;cursor:pointer;font-weight:650;}
+#bv-npc-quiz-choices button:focus-visible{outline:3px solid #ffdb75;}
+#bv-npc-quiz-feedback{min-height:22px;font-size:13px;color:#fff4bd;line-height:1.55;}

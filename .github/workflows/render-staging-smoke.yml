@@ -1,0 +1,21 @@
+name: Render staging E2E smoke
+on:
+  push:
+    branches: [feature/roadmap-v2-school-mobile-release]
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - run: npm --prefix server install --no-fund
+      - name: Verify real Render endpoint and WebSockets
+        run: node server/tests/render-smoke.mjs
+        env:
+          BLOCKVERSE_STAGING_URL: https://blockverse-v2-school-staging.onrender.com

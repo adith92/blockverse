@@ -7,12 +7,24 @@ services:
     environment:
       PORT: '3001'
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?Set allowed frontend HTTPS origins in .env}
+      NPC_LLM_ENABLED: ${NPC_LLM_ENABLED:-0}
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:4b}
+      NPC_FREEFORM_ENABLED: '0'
+      NPC_TTS_ENABLED: '0'
     expose:
       - '3001'
     read_only: true
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     tmpfs: [/tmp]
+  ollama:
+    image: ollama/ollama:latest
+    profiles: [ai]
+    restart: unless-stopped
+    expose: ['11434']
+    volumes: [ollama_data:/root/.ollama]
+    # No public port: only BLOCKVERSE server can reach Ollama on this Compose network.
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
@@ -27,3 +39,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  ollama_data:
