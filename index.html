@@ -2,10 +2,10 @@
 <html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>BLOCKVERSE — Build it. Play it. Together.</title>
   <!-- Font Awesome for clean game & tool icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Icon CSS is bundled locally from @fortawesome/fontawesome-free 7.3.1 by Vite. -->
   <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -82,11 +82,16 @@
 
     <!-- Right: Quick Actions, Emote, World Switch, Dev FPS, Pause -->
     <div class="flex flex-wrap items-center gap-2 pointer-events-auto">
-      <!-- Developer Telemetry Badge (FPS, RTT, Meshes) -->
+      <!-- Developer Telemetry Badge (FPS, Drawcalls, Meshes, Gamepad) -->
       <div id="hud-dev-stats" class="bv-panel px-3 py-1.5 text-[11px] font-mono text-slate-200 flex items-center gap-2.5">
         <span>FPS: <strong id="stat-fps" class="text-bvGrass">60</strong></span>
+        <span>DRAW: <strong id="stat-draws" class="text-bvCyan">0</strong></span>
         <span>OBJ: <strong id="stat-obj" class="text-bvSky">0</strong></span>
         <span>LOAD: <strong id="stat-load" class="text-bvSun">0ms</strong></span>
+        <span id="hud-gamepad-badge" class="hidden items-center gap-1 px-1.5 py-0.5 rounded bg-bvGrass/20 text-bvGrass font-sans font-bold text-[10px]" title="Status Gamepad (Android / macOS / Windows / iOS)">
+          <i class="fa-solid fa-gamepad"></i>
+          <span id="hud-gamepad-label">Gamepad</span>
+        </span>
       </div>
 
       <!-- World Switcher Shortcut -->
@@ -255,6 +260,7 @@
         <button id="btn-touch-sprint" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvCyan text-bvCyan font-display font-bold text-xs active:scale-95">LARI</button>
         <button id="btn-touch-interact" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvSun text-bvSun font-display font-bold text-sm active:scale-95">E</button>
       </div>
+      <button id="btn-touch-emote" aria-label="Emote" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvGrass text-bvGrass font-bold pointer-events-auto">👋</button>
       <button id="btn-touch-jump" class="w-16 h-16 rounded-2xl bg-bvSky text-bvNavy font-display font-bold text-sm shadow-lg active:scale-95">LOMPAT</button>
     </div>
   </div>
@@ -270,6 +276,8 @@
     <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">Drag Mouse</kbd> Kamera</span>
     <span>•</span>
     <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">E</kbd> Portal</span>
+    <span>•</span>
+    <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvGrass font-mono">🎮 Stick / A / X</kbd> Gamepad</span>
   </div>
 
   <!-- ================= HOME / MAIN MENU OVERLAY ================= -->
@@ -280,7 +288,7 @@
         <div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-bvSky/15 blur-2xl pointer-events-none"></div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bvSun/15 border border-bvSun/40 text-bvSun text-xs font-bold mb-4">
           <i class="fa-solid fa-cubes-stacked"></i>
-          <span>ORIGINAL 3D SOCIAL SANDBOX • v1.0 MVP</span>
+          <span>ORIGINAL 3D SOCIAL SANDBOX • v2.0 EXPLORE</span>
         </div>
 
         <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight text-white mb-2">
@@ -459,6 +467,16 @@
           </button>
         </div>
 
+        <!-- World 5: Cengkareng expanded open world; map is fictionalized. -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvSky/45 flex flex-col justify-between">
+          <div>
+            <span class="px-2 py-1 rounded-full bg-bvSky/20 text-bvSky text-xs font-bold">🗺️ OPEN WORLD • 12 DISTRIK</span>
+            <h3 class="font-display font-bold text-lg text-white mt-3 mb-2">5. Jakarta Barat — Cengkareng Explorer</h3>
+            <p class="text-xs text-slate-300 mb-3">Jelajahi dunia fiksi terinspirasi Cengkareng Timur, Kali Apuran, Daan Mogot, kampung, pasar, taman dan koridor kota. 125 model 3D orisinal dengan mini-map dan fast travel.</p>
+          </div>
+          <button data-enter-world="cengkareng" class="bv-btn w-full py-3 rounded-xl bg-bvSky text-bvNavy font-display font-bold text-sm">🌏 Jelajahi Cengkareng</button>
+        </div>
+
         <!-- World 4: Coin Dash (P1 Bonus Mini-game) -->
         <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvGrass/40 flex flex-col justify-between">
           <div>
@@ -576,6 +594,10 @@
           <div class="font-bold text-bvGrass mb-1">Builder Island Editor</div>
           <p>Pilih objek di palet bawah, arahkan bayangan hijau ke grid lalu klik untuk memasang. Tekan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">B</kbd> untuk menguji jalan di atas bangunanmu!</p>
         </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-bvSky/30 sm:col-span-2">
+          <div class="font-bold text-bvSky mb-1"><i class="fa-solid fa-gamepad mr-1"></i>Gamepad Lintas Platform (Android, macOS, Windows, iOS Browser)</div>
+          <p>Hubungkan controller Xbox, PlayStation DualSense/DS4, Switch Pro, atau MFi Bluetooth/USB, lalu tekan tombol apa saja: <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">Left Stick / D-Pad</kbd> Jalan & Navigasi Menu, <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">Right Stick</kbd> Kamera 3D, <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">A / ✕</kbd> Lompat & Pilih Tombol, <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">X / □</kbd> Portal/Interaksi, <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">Y / △</kbd> Emote / Uji Builder, <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">L2 / R2 / B</kbd> Lari Cepat, <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">Start / Menu</kbd> Pengaturan.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -618,6 +640,21 @@
         <div class="flex items-center justify-between">
           <span class="font-bold text-slate-200">Tampilkan Statistik Developer (FPS / Mesh)</span>
           <input id="setting-showfps" type="checkbox" checked class="w-4 h-4 accent-bvSky" />
+        </div>
+
+        <div class="pt-3 border-t border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-bvCyan"><i class="fa-solid fa-gamepad mr-1"></i>Status Gamepad (Android/macOS/Windows/iOS)</span>
+            <span id="setting-gp-status" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px]">Tekan tombol di controller</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <label for="setting-gp-deadzone" class="font-bold text-slate-200">Deadzone Analog Stick Gamepad</label>
+            <input id="setting-gp-deadzone" type="range" min="5" max="35" value="16" class="w-40 accent-bvCyan" />
+          </div>
+          <div class="flex items-center justify-between">
+            <label for="setting-gp-vibration" class="font-bold text-slate-200">Getaran Haptic Gamepad (Rumble)</label>
+            <input id="setting-gp-vibration" type="checkbox" checked class="w-4 h-4 accent-bvSky" />
+          </div>
         </div>
 
         <div class="pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
@@ -766,7 +803,7 @@
   </div>
 
   <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
-  <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <div id="toast-container" role="status" aria-live="polite" aria-atomic="true" class="fixed top-20 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
   <!-- ================= APPLICATION LOGIC (MODULE) ================= -->
   <script type="module" src="/src/game.js"></script>

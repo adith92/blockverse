@@ -1,6 +1,6 @@
 /** Server-owned canonical input validation: never trust playerId, roomKey or rewards from clients. */
 export const MAX_PLAYERS = 16;
-export const ALLOWED_WORLDS = new Set(['hub', 'obby', 'builder', 'coindash']);
+export const ALLOWED_WORLDS = new Set(['hub', 'obby', 'builder', 'coindash', 'cengkareng']);
 export const ALLOWED_EMOTES = new Set(['WAVE', 'GG', 'FOLLOW', 'JUMP', 'BUILD', 'CHEER']);
 export const COLORS = new Set(['#4CC9F0','#3DD6D0','#FFCB47','#FF6B6B','#6FCF97','#F7FBFF','#A78BFA','#F97316','#FFE0BD','#F1C27D','#E0AC69','#C68642','#8D5524','#14213D','#2B3A67']);
 export const ACCESSORIES = new Set(['none','cap','visor','backpack','halo']);
