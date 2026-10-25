@@ -1,0 +1,29 @@
+services:
+  multiplayer:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.multiplayer
+    restart: unless-stopped
+    environment:
+      PORT: '3001'
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?Set allowed frontend HTTPS origins in .env}
+    expose:
+      - '3001'
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ['80:80','443:443']
+    environment:
+      MULTIPLAYER_DOMAIN: ${MULTIPLAYER_DOMAIN:?Set VPS domain}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [multiplayer]
+volumes:
+  caddy_data:
+  caddy_config:

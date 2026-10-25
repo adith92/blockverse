@@ -1,0 +1,12 @@
+**/node_modules
+.git
+**/.git
+dist
+**/.env
+**/.env.local
+**/.env.production
+*.zip
+*.log
+**/*.glb
+**/*.gltf
+docs/images

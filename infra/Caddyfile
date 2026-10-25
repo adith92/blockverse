@@ -1,0 +1,8 @@
+{$MULTIPLAYER_DOMAIN} {
+  encode zstd gzip
+  header {
+    X-Content-Type-Options nosniff
+    Referrer-Policy no-referrer
+  }
+  reverse_proxy multiplayer:3001
+}

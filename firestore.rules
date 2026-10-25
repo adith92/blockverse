@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owner(userId) { return signedIn() && request.auth.uid == userId; }
+    function color(c) { return c is string && c.matches('^#[0-9A-Fa-f]{6}$'); }
+    function avatar(a) {
+      return a is map && a.keys().hasAll(['torsoColor','headColor','limbColor','accessory'])
+        && a.keys().hasOnly(['torsoColor','headColor','limbColor','accessory'])
+        && color(a.torsoColor) && color(a.headColor) && color(a.limbColor)
+        && a.accessory in ['none','cap','visor','backpack','halo'];
+    }
+    function safeName(n) { return n is string && n.matches('^[A-Za-z0-9_-]{3,16}$'); }
+    function profile(p) {
+      return p.keys().hasOnly(['displayName','avatar'])
+        && p.keys().hasAll(['displayName','avatar'])
+        && safeName(p.displayName) && avatar(p.avatar);
+    }
+    // NEVER trust stars, scores, checkpoint claims, achievements or rewardClaims
+    // from client writes. Those are DEMO/offline until a verified backend exists.
+    match /artifacts/{appId}/users/{userId}/profile/main {
+      allow read: if owner(userId);
+      allow create, update: if owner(userId) && profile(request.resource.data);
+      allow delete: if owner(userId);
+    }
+    function world(w) {
+      return w.keys().hasAll(['id','ownerPlayerId','title','visibility','revision','objectsJson','updatedAt'])
+        && w.keys().hasOnly(['id','ownerPlayerId','title','visibility','revision','objectsJson','updatedAt'])
+        && w.id == 'world_default'
+        && w.ownerPlayerId == request.auth.uid
+        && w.title is string && w.title.size() >= 1 && w.title.size() <= 40
+        && w.visibility in ['private','unlisted']
+        && w.revision is int && w.revision >= 2 && w.revision <= 1000000
+        && w.objectsJson is string && w.objectsJson.size() < 140000
+        && w.updatedAt is string && w.updatedAt.size() <= 40;
+    }
+    match /artifacts/{appId}/users/{userId}/worlds/my_island {
+      allow read: if owner(userId);
+      allow create: if owner(userId) && world(request.resource.data)
+        && request.resource.data.revision == 2;
+      allow update: if owner(userId) && world(request.resource.data)
+        && resource.data.ownerPlayerId == userId
+        && request.resource.data.revision == resource.data.revision + 1;
+      allow delete: if owner(userId);
+    }
+    function vec3(p) {
+      return p is list && p.size() == 3
+        && p[0] is number && p[0] >= -500 && p[0] <= 500
+        && p[1] is number && p[1] >= -500 && p[1] <= 500
+        && p[2] is number && p[2] >= -500 && p[2] <= 500;
+    }
+    function presence(p, playerId) {
+      return p.keys().hasAll(['playerId','displayName','roomKey','position','rotY','avatar','timestamp'])
+        && p.keys().hasOnly(['playerId','displayName','roomKey','position','rotY','avatar','emoteCode','timestamp'])
+        && p.playerId == playerId && playerId == request.auth.uid
+        && safeName(p.displayName)
+        && p.roomKey is string
+        && p.roomKey.matches('^[A-Z0-9_-]{1,16}:(hub|obby|builder|coindash)$')
+        && vec3(p.position) && p.rotY is number && p.rotY >= -13 && p.rotY <= 13
+        && avatar(p.avatar) && p.timestamp is int
+        && (!('emoteCode' in p) || p.emoteCode == null || p.emoteCode in ['WAVE','GG','FOLLOW','JUMP','BUILD','CHEER']);
+    }
+    match /artifacts/{appId}/public/data/room_presence/{playerId} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && playerId == request.auth.uid
+        && presence(request.resource.data, playerId);
+      allow delete: if signedIn() && playerId == request.auth.uid;
+    }
+    // All unspecified writes/reads are blocked. No public world publication in V1.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

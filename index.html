@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>BLOCKVERSE — Build it. Play it. Together.</title>
+  <!-- Font Awesome for clean game & tool icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+
+
+
+</head>
+<body class="antialiased selection:bg-bvSky selection:text-bvNavy">
+
+  <!-- 3D WebGL Canvas Mount -->
+  <div id="game-canvas-container" aria-label="BLOCKVERSE 3D Game Viewport"></div>
+
+  <!-- Dynamic 3D Projected Nametags, Portal Labels & Quick-Chat Bubbles -->
+  <div id="nametag-layer" class="nametag-layer"></div>
+
+  <!-- ================= TOP HUD BAR (Always visible in-game) ================= -->
+  <header id="hud-topbar" class="fixed top-3 left-3 right-3 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-none hidden">
+    <!-- Left: Player Identity, Room, Stars, Online Count -->
+    <div class="flex flex-wrap items-center gap-2 pointer-events-auto">
+      <div class="bv-panel px-3.5 py-2 flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-bvSky to-bvCyan flex items-center justify-center text-bvNavy font-display font-bold text-lg shadow">
+          <i class="fa-solid fa-cube"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="hud-player-name" class="font-display font-bold text-sm tracking-wide text-white">Builder0000</span>
+            <span id="hud-room-badge" class="text-[11px] font-bold uppercase px-2 py-0.5 rounded-full bg-bvSky/20 text-bvSky border border-bvSky/40">Sunrise Plaza</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px] text-slate-300">
+            <span id="hud-net-indicator" class="inline-flex items-center gap-1 text-bvGrass font-semibold">
+              <span class="w-2 h-2 rounded-full bg-bvGrass animate-pulse"></span>
+              <span id="hud-net-text">Mode lokal (1 Pemain)</span>
+            </span>
+            <span class="text-slate-500">•</span>
+            <span id="hud-room-code" class="font-mono text-xs text-bvSun">ROOM: HUB-1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stars & Achievements Pill -->
+      <button id="btn-open-achievements" class="bv-panel bv-btn px-3.5 py-2 flex items-center gap-2.5 hover:border-bvSun/60" title="Lihat Bintang & Pencapaian">
+        <div class="w-7 h-7 rounded-lg bg-bvSun/20 border border-bvSun/50 flex items-center justify-center text-bvSun">
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <div class="text-left">
+          <div class="text-[10px] uppercase tracking-wider text-slate-300 font-semibold" data-i18n="starsLabel">Bintang</div>
+          <div id="hud-stars-count" class="font-display font-bold text-sm text-bvSun leading-tight">0</div>
+        </div>
+      </button>
+
+      <!-- Obby Active Challenge HUD (Shown in Sky Obby or Coin Dash) -->
+      <div id="hud-obby-panel" class="bv-panel px-4 py-2 hidden items-center gap-4 border-bvSun/50">
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-300 font-bold" id="hud-course-title">SKY OBBY</div>
+          <div class="font-mono font-bold text-base text-white" id="hud-obby-timer">00:00.0</div>
+        </div>
+        <div class="h-6 w-px bg-white/15"></div>
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-300" data-i18n="checkpoint">Checkpoint</div>
+          <div class="font-display font-bold text-sm text-bvCyan" id="hud-obby-cp">1 / 3</div>
+        </div>
+        <div class="h-6 w-px bg-white/15"></div>
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-300" data-i18n="falls">Jatuh</div>
+          <div class="font-display font-bold text-sm text-bvCoral" id="hud-obby-deaths">0</div>
+        </div>
+        <div class="h-6 w-px bg-white/15"></div>
+        <div>
+          <div class="text-[10px] uppercase tracking-wider text-slate-300">Rekor (PB)</div>
+          <div class="font-mono font-semibold text-xs text-bvSun" id="hud-obby-pb">--:--</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Quick Actions, Emote, World Switch, Dev FPS, Pause -->
+    <div class="flex flex-wrap items-center gap-2 pointer-events-auto">
+      <!-- Developer Telemetry Badge (FPS, RTT, Meshes) -->
+      <div id="hud-dev-stats" class="bv-panel px-3 py-1.5 text-[11px] font-mono text-slate-200 flex items-center gap-2.5">
+        <span>FPS: <strong id="stat-fps" class="text-bvGrass">60</strong></span>
+        <span>OBJ: <strong id="stat-obj" class="text-bvSky">0</strong></span>
+        <span>LOAD: <strong id="stat-load" class="text-bvSun">0ms</strong></span>
+      </div>
+
+      <!-- World Switcher Shortcut -->
+      <button id="btn-hud-worlds" class="bv-panel bv-btn px-3 py-2 text-xs font-bold flex items-center gap-1.5 hover:border-bvSky">
+        <i class="fa-solid fa-earth-americas text-bvSky"></i>
+        <span class="hidden sm:inline" data-i18n="worldsBtn">Dunia</span>
+      </button>
+
+      <!-- Avatar Editor Shortcut -->
+      <button id="btn-hud-avatar" class="bv-panel bv-btn px-3 py-2 text-xs font-bold flex items-center gap-1.5 hover:border-bvCyan">
+        <i class="fa-solid fa-user-astronaut text-bvCyan"></i>
+        <span class="hidden sm:inline" data-i18n="avatarBtn">Avatar</span>
+      </button>
+
+      <!-- Emote / Quick Chat Button (Q) -->
+      <button id="btn-hud-emote" class="bv-panel bv-btn px-3 py-2 text-xs font-bold flex items-center gap-1.5 hover:border-bvSun" title="Quick Chat & Emote (Q)">
+        <i class="fa-solid fa-face-laugh-beam text-bvSun"></i>
+        <span class="hidden sm:inline">Emote [Q]</span>
+      </button>
+
+      <!-- Respawn Button (R) -->
+      <button id="btn-hud-respawn" class="bv-panel bv-btn px-3 py-2 text-xs font-bold flex items-center gap-1.5 hover:border-bvCoral" title="Respawn ke Checkpoint (R)">
+        <i class="fa-solid fa-rotate-left text-bvCoral"></i>
+        <span class="hidden md:inline">[R]</span>
+      </button>
+
+      <!-- Language Toggle (ID / EN) -->
+      <button id="btn-hud-lang" class="bv-panel bv-btn px-2.5 py-2 text-xs font-bold text-bvSky" title="Ganti Bahasa / Switch Language">
+        ID
+      </button>
+
+      <!-- Pause / Settings (Esc) -->
+      <button id="btn-hud-pause" class="bv-panel bv-btn px-3 py-2 text-xs font-bold flex items-center gap-1.5 bg-bvCoral/20 border-bvCoral/50 hover:bg-bvCoral/30" aria-label="Menu & Pengaturan">
+        <i class="fa-solid fa-bars"></i>
+        <span class="hidden sm:inline">[Esc]</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= INTERACTION PROMPT BANNER (Press E) ================= -->
+  <div id="interaction-prompt" class="fixed bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden">
+    <div class="bv-panel px-5 py-3 border-2 border-bvSun flex items-center gap-3 animate-float shadow-2xl">
+      <kbd class="px-2.5 py-1 rounded-lg bg-bvSun text-bvNavy font-display font-bold text-sm shadow">E</kbd>
+      <div>
+        <div id="interaction-title" class="font-display font-bold text-sm text-white">Masuk ke Sky Obby</div>
+        <div id="interaction-sub" class="text-xs text-slate-300">Tekan E atau ketuk di sini untuk masuk</div>
+      </div>
+      <button id="btn-interaction-tap" class="pointer-events-auto ml-2 px-3 py-1.5 rounded-lg bg-bvSky text-bvNavy font-bold text-xs">
+        Masuk
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= QUICK-CHAT / EMOTE WHEEL OVERLAY (Press Q) ================= -->
+  <div id="emote-wheel-modal" class="fixed bottom-24 right-4 z-30 hidden">
+    <div class="bv-panel p-3.5 w-72 border-bvSun/60">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-display font-bold text-xs uppercase tracking-wider text-bvSun">
+          <i class="fa-solid fa-comment-dots mr-1"></i> Quick-Chat Aman & Emote
+        </span>
+        <button id="btn-close-emote" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="text-[11px] text-slate-300 mb-2.5">Pilih pesan aman untuk ditampilkan di atas avatarmu:</p>
+      <div class="grid grid-cols-2 gap-1.5" id="emote-buttons-grid">
+        <!-- Populated dynamically from allowlisted phrases -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= BUILDER ISLAND EDITOR TOOLBAR & PALETTE ================= -->
+  <div id="builder-hud" class="fixed inset-x-0 bottom-3 z-20 pointer-events-none hidden flex-col items-center gap-2 px-3">
+    <!-- Top Builder Status Bar -->
+    <div class="bv-panel px-4 py-2 pointer-events-auto flex flex-wrap items-center justify-center gap-3 text-xs">
+      <div class="flex items-center gap-1.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-bvCyan"></span>
+        <span class="font-display font-bold text-white" id="builder-mode-label">MODE EDITOR</span>
+      </div>
+      <span class="text-slate-500">|</span>
+      <div>Kuota Objek: <strong id="builder-quota-count" class="text-bvSun">0 / 300</strong></div>
+      <span class="text-slate-500">|</span>
+      <div>Revisi DB: <strong id="builder-rev-count" class="text-bvSky">v1</strong></div>
+      <span class="text-slate-500">|</span>
+      <div class="flex items-center gap-1">
+        <span>Visibilitas:</span>
+        <select id="builder-visibility-select" class="bg-slate-900/90 border border-slate-600 rounded px-2 py-0.5 text-xs text-bvCyan font-semibold">
+          <option value="private">Private (Hanya Pemilik)</option>
+          <option value="unlisted">Unlisted (Bisa Dikunjungi via Kode)</option>
+        </select>
+      </div>
+      <span class="text-slate-500">|</span>
+      <span id="builder-save-status" class="text-bvGrass font-semibold"><i class="fa-solid fa-check-circle mr-1"></i>Tersimpan</span>
+    </div>
+
+    <!-- Selected Object Inspector Bar (Appears when an object is selected or placing) -->
+    <div id="builder-inspector" class="bv-panel px-4 py-2 pointer-events-auto flex flex-wrap items-center justify-center gap-2 text-xs">
+      <span class="text-slate-300 font-semibold mr-1">Warna:</span>
+      <div id="builder-color-swatches" class="flex items-center gap-1"></div>
+      <div class="h-4 w-px bg-white/15 mx-1"></div>
+      <span class="text-slate-300 font-semibold">Grid:</span>
+      <button id="btn-grid-toggle" class="bv-btn px-2 py-1 rounded bg-slate-800 border border-bvSky/40 text-bvSky font-mono">1.0m</button>
+      <div class="h-4 w-px bg-white/15 mx-1"></div>
+      <!-- Transform Nudge Buttons for selected object -->
+      <div class="flex items-center gap-1">
+        <button data-xform="rotY" class="bv-btn px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-white" title="Putar 15° (R)"><i class="fa-solid fa-rotate-right mr-1"></i>15°</button>
+        <button data-xform="upY" class="bv-btn px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-white" title="Naikkan Y"><i class="fa-solid fa-arrow-up"></i> Y+</button>
+        <button data-xform="downY" class="bv-btn px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-white" title="Turunkan Y"><i class="fa-solid fa-arrow-down"></i> Y-</button>
+        <button data-xform="scaleUp" class="bv-btn px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-white" title="Perbesar Skala"><i class="fa-solid fa-expand"></i> +</button>
+        <button data-xform="scaleDown" class="bv-btn px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-white" title="Perkecil Skala"><i class="fa-solid fa-compress"></i> -</button>
+        <button data-xform="delete" class="bv-btn px-2 py-1 rounded bg-bvCoral/20 border border-bvCoral/50 text-bvCoral hover:bg-bvCoral/40" title="Hapus Objek Terpilih (Del)"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+
+    <!-- Main Palette & Tool Dock -->
+    <div class="bv-panel p-2 pointer-events-auto flex flex-wrap items-center justify-center gap-1.5 max-w-5xl">
+      <!-- Tools -->
+      <div class="flex items-center gap-1 pr-2 border-r border-white/15">
+        <button data-tool="place" class="builder-tool-btn bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-bvSky text-bvNavy flex items-center gap-1.5">
+          <i class="fa-solid fa-plus"></i> <span>Pasang</span>
+        </button>
+        <button data-tool="select" class="builder-tool-btn bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800/90 text-slate-200 flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-pointer"></i> <span>Pilih</span>
+        </button>
+        <button data-tool="paint" class="builder-tool-btn bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800/90 text-slate-200 flex items-center gap-1.5">
+          <i class="fa-solid fa-fill-drip"></i> <span>Cat</span>
+        </button>
+        <button data-tool="delete" class="builder-tool-btn bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800/90 text-slate-200 flex items-center gap-1.5">
+          <i class="fa-solid fa-eraser"></i> <span>Hapus</span>
+        </button>
+      </div>
+
+      <!-- 8 Primitive Palette Items -->
+      <div id="builder-palette-items" class="flex flex-wrap items-center gap-1 pr-2 border-r border-white/15">
+        <!-- Populated by JS: Block, Ramp, Platform, Cylinder, Sphere, Tree, Lamp, Spawn -->
+      </div>
+
+      <!-- History & Persistence Actions -->
+      <div class="flex items-center gap-1">
+        <button id="btn-builder-undo" class="bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-200 disabled:opacity-40" title="Undo (Ctrl+Z)">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+        <button id="btn-builder-redo" class="bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-200 disabled:opacity-40" title="Redo (Ctrl+Y)">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+        <button id="btn-builder-save" class="bv-btn px-3 py-2 rounded-xl text-xs font-bold bg-bvGrass text-bvNavy flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-floppy-disk"></i> <span>Simpan</span>
+        </button>
+        <button id="btn-builder-test" class="bv-btn px-3 py-2 rounded-xl text-xs font-bold bg-bvSun text-bvNavy flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-play"></i> <span id="builder-test-btn-label">Uji Main [B]</span>
+        </button>
+        <button id="btn-builder-json" class="bv-btn px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-bvSky" title="Ekspor / Impor JSON Tervalidasi">
+          <i class="fa-solid fa-file-code"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MOBILE / TOUCH CONTROLS OVERLAY (P1 Responsive) ================= -->
+  <div id="touch-controls" class="fixed inset-x-4 bottom-4 z-20 pointer-events-none hidden justify-between items-end">
+    <!-- Virtual Joystick -->
+    <div id="joystick-zone" class="w-28 h-28 rounded-full bg-bvNavy/70 border-2 border-bvSky/50 relative pointer-events-auto touch-none flex items-center justify-center">
+      <div id="joystick-knob" class="w-12 h-12 rounded-full bg-bvSky/90 shadow-lg pointer-events-none transition-transform duration-75"></div>
+    </div>
+    <!-- Touch Action Buttons -->
+    <div class="flex flex-col items-end gap-2 pointer-events-auto">
+      <div class="flex gap-2">
+        <button id="btn-touch-sprint" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvCyan text-bvCyan font-display font-bold text-xs active:scale-95">LARI</button>
+        <button id="btn-touch-interact" class="w-12 h-12 rounded-2xl bg-bvNavy/80 border-2 border-bvSun text-bvSun font-display font-bold text-sm active:scale-95">E</button>
+      </div>
+      <button id="btn-touch-jump" class="w-16 h-16 rounded-2xl bg-bvSky text-bvNavy font-display font-bold text-sm shadow-lg active:scale-95">LOMPAT</button>
+    </div>
+  </div>
+
+  <!-- ================= KEYBOARD HELP PILL (Bottom Left) ================= -->
+  <div id="hud-controls-hint" class="fixed bottom-3 left-3 z-10 pointer-events-none hidden lg:flex items-center gap-2 bv-panel px-3 py-1.5 text-[11px] text-slate-300">
+    <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">WASD</kbd> Gerak</span>
+    <span>•</span>
+    <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">Shift</kbd> Lari</span>
+    <span>•</span>
+    <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">Space</kbd> Lompat</span>
+    <span>•</span>
+    <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">Drag Mouse</kbd> Kamera</span>
+    <span>•</span>
+    <span><kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-bvSky font-mono">E</kbd> Portal</span>
+  </div>
+
+  <!-- ================= HOME / MAIN MENU OVERLAY ================= -->
+  <section id="screen-home" class="fixed inset-0 z-30 flex items-center justify-center p-4 bg-gradient-to-b from-bvNavy/70 via-bvNavy/80 to-slate-950/90 backdrop-blur-md">
+    <div class="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <!-- Left Column: Brand, Tagline, Primary Actions -->
+      <div class="lg:col-span-7 bv-panel p-6 sm:p-8 border-2 border-bvSky/40 relative overflow-hidden">
+        <div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-bvSky/15 blur-2xl pointer-events-none"></div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bvSun/15 border border-bvSun/40 text-bvSun text-xs font-bold mb-4">
+          <i class="fa-solid fa-cubes-stacked"></i>
+          <span>ORIGINAL 3D SOCIAL SANDBOX • v1.0 MVP</span>
+        </div>
+
+        <h1 class="font-display font-bold text-4xl sm:text-5xl tracking-tight text-white mb-2">
+          BLOCK<span class="text-bvSky">VERSE</span>
+        </h1>
+        <p class="font-display text-lg text-bvSun mb-4">"Build it. Play it. Together."</p>
+        <p class="text-sm text-slate-300 leading-relaxed mb-6" data-i18n="homeDesc">
+          Jelajahi Sunrise Plaza, taklukkan 15 rintangan di Sky Obby, kumpulkan Bintang, kustomisasi avatarmu, dan bangun duniamu sendiri di Builder Island bersama teman di ruangan yang sama!
+        </p>
+
+        <!-- Primary Action Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+          <button id="btn-home-play" class="bv-btn col-span-1 sm:col-span-2 py-4 px-6 rounded-2xl bg-gradient-to-r from-bvSky to-bvCyan text-bvNavy font-display font-bold text-xl shadow-lg shadow-bvSky/25 flex items-center justify-center gap-3">
+            <i class="fa-solid fa-play"></i>
+            <span data-i18n="playNow">MAIN SEKARANG (SUNRISE PLAZA)</span>
+          </button>
+
+          <button id="btn-home-worlds" class="bv-btn py-3 px-4 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-bvSky/30 font-display font-bold text-sm text-white flex items-center justify-center gap-2">
+            <i class="fa-solid fa-compass text-bvSky"></i>
+            <span data-i18n="selectWorld">Pilih Dunia & Obby</span>
+          </button>
+
+          <button id="btn-home-avatar" class="bv-btn py-3 px-4 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-bvCyan/30 font-display font-bold text-sm text-white flex items-center justify-center gap-2">
+            <i class="fa-solid fa-shirt text-bvCyan"></i>
+            <span data-i18n="customizeAvatar">Editor Avatar</span>
+          </button>
+
+          <button id="btn-home-howto" class="bv-btn py-2.5 px-4 rounded-xl bg-slate-800/70 hover:bg-slate-700/80 border border-white/10 font-semibold text-xs text-slate-200 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-circle-question text-bvSun"></i>
+            <span data-i18n="howToPlay">Cara Bermain</span>
+          </button>
+
+          <button id="btn-home-settings" class="bv-btn py-2.5 px-4 rounded-xl bg-slate-800/70 hover:bg-slate-700/80 border border-white/10 font-semibold text-xs text-slate-200 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-sliders text-bvCoral"></i>
+            <span data-i18n="settings">Pengaturan & Kualitas</span>
+          </button>
+        </div>
+
+        <!-- QA Verification & Docs Bar -->
+        <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-bvGrass"></span>
+            <span id="home-session-status">Profil Tamu (Offline/Cloud)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-open-qa-suite" class="bv-btn px-3 py-1.5 rounded-lg bg-bvSun/15 border border-bvSun/40 text-bvSun font-bold hover:bg-bvSun/25">
+              <i class="fa-solid fa-flask-vial mr-1"></i>QA & Automated Tests
+            </button>
+            <button id="btn-open-docs" class="bv-btn px-3 py-1.5 rounded-lg bg-bvSky/15 border border-bvSky/40 text-bvSky font-bold hover:bg-bvSky/25">
+              <i class="fa-solid fa-book-open mr-1"></i>PRD & Runbook
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Player Card, Quick Stats & Multiplayer Room Join -->
+      <div class="lg:col-span-5 flex flex-col gap-4">
+        <div class="bv-panel p-5 border border-white/15">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <div class="text-xs uppercase tracking-wider text-bvSky font-bold">Profil Sesi Tamu</div>
+              <div id="menu-player-name" class="font-display font-bold text-xl text-white">Builder0000</div>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl bg-bvSun/20 border border-bvSun/50 text-bvSun font-display font-bold text-sm flex items-center gap-1.5">
+              <i class="fa-solid fa-star"></i>
+              <span id="menu-stars-count">0</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center mb-4">
+            <div class="p-2.5 rounded-xl bg-slate-900/70 border border-white/10">
+              <div class="text-[10px] text-slate-400 uppercase">Rekor Obby</div>
+              <div id="menu-stat-pb" class="font-mono font-bold text-sm text-bvCyan mt-0.5">--:--</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900/70 border border-white/10">
+              <div class="text-[10px] text-slate-400 uppercase">Tamat Obby</div>
+              <div id="menu-stat-clears" class="font-display font-bold text-sm text-bvGrass mt-0.5">0x</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900/70 border border-white/10">
+              <div class="text-[10px] text-slate-400 uppercase">Blok Dunia</div>
+              <div id="menu-stat-blocks" class="font-display font-bold text-sm text-bvSun mt-0.5">0</div>
+            </div>
+          </div>
+
+          <!-- Multiplayer Room Code Box -->
+          <div class="p-3.5 rounded-xl bg-slate-900/80 border border-bvSky/30">
+            <label for="input-room-code" class="block text-xs font-bold text-bvSky mb-1">
+              <i class="fa-solid fa-users mr-1"></i>Kode Ruangan Multiplayer (kapasitas belum ditegakkan)
+            </label>
+            <p class="text-[11px] text-slate-300 mb-2">
+              Buka tab lain dengan room sama untuk demo lokal. Perangkat berbeda perlu Firebase aktif.
+            </p>
+            <div class="flex gap-2">
+              <input id="input-room-code" type="text" maxlength="16" value="HUB-1" class="w-full px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-white font-mono text-xs uppercase focus:outline-none focus:border-bvSky" />
+              <button id="btn-apply-room" class="bv-btn px-3 py-1.5 rounded-lg bg-bvSky text-bvNavy font-bold text-xs whitespace-nowrap">
+                Gabung Room
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Originality & Safety Disclosure Card -->
+        <div class="bv-panel p-4 border border-white/10 text-xs text-slate-300 leading-relaxed">
+          <div class="font-bold text-white mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-bvGrass"></i>
+            <span>Keamanan & Keaslian BLOCKVERSE</span>
+          </div>
+          Game mandiri orisinal (bukan produk resmi Roblox, tanpa Robux/pembayaran, tanpa eksekusi skrip bebas, dan menggunakan Quick-Chat aman).
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORLDS SELECTION MODAL ================= -->
+  <div id="modal-worlds" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-4xl w-full p-6 border-2 border-bvSky/40 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h2 class="font-display font-bold text-2xl text-white">Pilih Dunia & Mini-Game</h2>
+          <p class="text-xs text-slate-300">Game browser; multiplayer lintas perangkat memerlukan Firebase yang dikonfigurasi.</p>
+        </div>
+        <button data-close-modal="modal-worlds" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- World 1: Sunrise Plaza (Hub) -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvSky/40 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-bvSky/20 text-bvSky text-[11px] font-bold">SOSIAL HUB • P0</span>
+              <span class="text-xs text-bvGrass font-mono"><i class="fa-solid fa-circle text-[8px] mr-1"></i>Aktif</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white mb-1">1. Sunrise Plaza (Hub Utama)</h3>
+            <p class="text-xs text-slate-300 mb-3">
+              Alun-alun cerah dengan air mancur kristal berputar, taman pohon low-poly, bangku, platform melayang, dan portal menuju semua permainan.
+            </p>
+          </div>
+          <button data-enter-world="hub" class="bv-btn w-full py-2.5 rounded-xl bg-bvSky text-bvNavy font-display font-bold text-sm">
+            Masuk ke Sunrise Plaza
+          </button>
+        </div>
+
+        <!-- World 2: Sky Obby -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvSun/40 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-bvSun/20 text-bvSun text-[11px] font-bold">PARKOUR 15 TAHAP • P0</span>
+              <span class="text-xs text-bvSun font-bold">+50 ★ Hadiah</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white mb-1">2. Sky Obby Challenge</h3>
+            <p class="text-xs text-slate-300 mb-3">
+              15 rintangan terukur dalam 3 bagian (Foundation Jump, Moving Platforms & Sweeper Hazard, Sky Finale) dengan 3 Checkpoint dan rekor waktu.
+            </p>
+          </div>
+          <button data-enter-world="obby" class="bv-btn w-full py-2.5 rounded-xl bg-bvSun text-bvNavy font-display font-bold text-sm">
+            Mulai Tantangan Sky Obby
+          </button>
+        </div>
+
+        <!-- World 3: Builder Island -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvCyan/40 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-bvCyan/20 text-bvCyan text-[11px] font-bold">CREATOR SANDBOX • P0</span>
+              <span class="text-xs text-slate-300 font-mono">Maks 300 Objek</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white mb-1">3. My Builder Island</h3>
+            <p class="text-xs text-slate-300 mb-3">
+              Bangun duniamu sendiri dengan 8 tipe objek, raycast ghost, rotasi 15°, skala, cat warna, Undo/Redo 30 langkah, Simpan & mode Uji Main!
+            </p>
+          </div>
+          <button data-enter-world="builder" class="bv-btn w-full py-2.5 rounded-xl bg-bvCyan text-bvNavy font-display font-bold text-sm">
+            Buka Builder Island Saya
+          </button>
+        </div>
+
+        <!-- World 4: Coin Dash (P1 Bonus Mini-game) -->
+        <div class="p-4 rounded-2xl bg-slate-900/80 border-2 border-bvGrass/40 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-bvGrass/20 text-bvGrass text-[11px] font-bold">TIME TRIAL • P1 BONUS</span>
+              <span class="text-xs text-bvGrass font-bold">+25 ★ Hadiah</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-white mb-1">4. Coin Dash Arena</h3>
+            <p class="text-xs text-slate-300 mb-3">
+              Mini-game kejar waktu! Kumpulkan 12 Bintang Koin yang tersebar di arena melompat secepat mungkin sebelum waktu habis.
+            </p>
+          </div>
+          <button data-enter-world="coindash" class="bv-btn w-full py-2.5 rounded-xl bg-bvGrass text-bvNavy font-display font-bold text-sm">
+            Mainkan Coin Dash
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= AVATAR CUSTOMIZER MODAL ================= -->
+  <div id="modal-avatar" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-2xl w-full p-6 border-2 border-bvCyan/40 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="font-display font-bold text-2xl text-white">Kustomisasi Avatar Blocky</h2>
+          <p class="text-xs text-slate-300">Perubahan langsung diterapkan ke karakter 3D dan disimpan ke profilmu.</p>
+        </div>
+        <button data-close-modal="modal-avatar" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <!-- Display Name (Sanitized) -->
+        <div>
+          <label class="block font-bold text-slate-200 mb-1">Nama Tampilan Tamu (3–16 karakter alfanumerik)</label>
+          <input id="avatar-name-input" type="text" maxlength="16" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-display text-sm" />
+        </div>
+
+        <!-- Torso Color -->
+        <div>
+          <label class="block font-bold text-slate-200 mb-1.5">Warna Torso (6 Preset + 2 Kosmetik Bintang)</label>
+          <div id="avatar-torso-colors" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Head Tone -->
+        <div>
+          <label class="block font-bold text-slate-200 mb-1.5">Warna Kepala</label>
+          <div id="avatar-head-colors" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Limbs Color -->
+        <div>
+          <label class="block font-bold text-slate-200 mb-1.5">Warna Kaki & Lengan</label>
+          <div id="avatar-limb-colors" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- 4 Procedural Accessories -->
+        <div>
+          <label class="block font-bold text-slate-200 mb-1.5">Aksesori Orisinal (Geometri Prosedural)</label>
+          <div id="avatar-accessory-options" class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <!-- None, Cap, Visor, Backpack, Halo -->
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-white/10 flex justify-end gap-2">
+          <button id="btn-save-avatar" class="bv-btn px-5 py-2.5 rounded-xl bg-bvCyan text-bvNavy font-display font-bold text-sm">
+            <i class="fa-solid fa-check mr-1"></i>Simpan Avatar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ACHIEVEMENTS & PROGRESSION MODAL ================= -->
+  <div id="modal-achievements" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-xl w-full p-6 border-2 border-bvSun/40">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="font-display font-bold text-2xl text-white">Pencapaian & Bintang</h2>
+          <p class="text-xs text-slate-300">Bintang saat ini adalah progres DEMO lokal pada perangkat ini, bukan mata uang server-authoritative.</p>
+        </div>
+        <button data-close-modal="modal-achievements" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="achievements-list" class="space-y-2.5 text-xs"></div>
+    </div>
+  </div>
+
+  <!-- ================= HOW TO PLAY MODAL ================= -->
+  <div id="modal-howto" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-2xl w-full p-6 border-2 border-bvSky/40 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-display font-bold text-2xl text-white">Panduan Kontrol & Cara Bermain</h2>
+        <button data-close-modal="modal-howto" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-200 mb-4">
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10">
+          <div class="font-bold text-bvSky mb-1">Gerakan Karakter</div>
+          <p><kbd class="px-1.5 py-0.5 bg-slate-800 rounded">W A S D</kbd> atau Tombol Panah untuk berjalan sesuai arah kamera. Tahan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">Shift</kbd> untuk berlari cepat.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10">
+          <div class="font-bold text-bvSun mb-1">Lompat & Interaksi</div>
+          <p><kbd class="px-1.5 py-0.5 bg-slate-800 rounded">Space</kbd> untuk melompat (1x lompatan darat). Dekati portal dan tekan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">E</kbd> untuk berpindah dunia.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10">
+          <div class="font-bold text-bvCyan mb-1">Kamera Orbit 3D</div>
+          <p>Tahan klik kanan atau klik kiri lalu geser mouse untuk memutar kamera. Gunakan Scroll Wheel untuk zoom in/out.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10">
+          <div class="font-bold text-bvGrass mb-1">Builder Island Editor</div>
+          <p>Pilih objek di palet bawah, arahkan bayangan hijau ke grid lalu klik untuk memasang. Tekan <kbd class="px-1.5 py-0.5 bg-slate-800 rounded">B</kbd> untuk menguji jalan di atas bangunanmu!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAUSE / SETTINGS MODAL ================= -->
+  <div id="modal-settings" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-lg w-full p-6 border-2 border-bvCoral/40">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-display font-bold text-2xl text-white">Menu Jeda & Pengaturan</h2>
+        <button data-close-modal="modal-settings" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-slate-200">Volume Efek Suara (Web Audio)</span>
+          <input id="setting-volume" type="range" min="0" max="100" value="70" class="w-40 accent-bvSky" />
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-slate-200">Kualitas Grafis 3D</span>
+          <select id="setting-quality" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
+            <option value="low">Rendah (Hemat Baterai, Tanpa Bayangan)</option>
+            <option value="medium">Sedang (DPR Standar)</option>
+            <option value="high" selected>Tinggi (Bayangan Dinamis + Kabut Halus)</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-slate-200">Sensitivitas Kamera Mouse</span>
+          <input id="setting-sensitivity" type="range" min="30" max="200" value="100" class="w-40 accent-bvCyan" />
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-slate-200">Balikkan Sumbu Y Kamera (Invert Y)</span>
+          <input id="setting-inverty" type="checkbox" class="w-4 h-4 accent-bvSky" />
+        </div>
+
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-slate-200">Tampilkan Statistik Developer (FPS / Mesh)</span>
+          <input id="setting-showfps" type="checkbox" checked class="w-4 h-4 accent-bvSky" />
+        </div>
+
+        <div class="pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
+          <button data-close-modal="modal-settings" class="bv-btn py-2.5 rounded-xl bg-bvSky text-bvNavy font-display font-bold text-sm">
+            Lanjutkan Main
+          </button>
+          <button id="btn-return-mainmenu" class="bv-btn py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-display font-bold text-sm">
+            Menu Utama
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= OBBY / COIN DASH VICTORY RESULTS MODAL ================= -->
+  <div id="modal-results" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-md w-full p-6 border-2 border-bvSun text-center">
+      <div class="w-16 h-16 rounded-2xl bg-bvSun/20 border-2 border-bvSun text-bvSun flex items-center justify-center text-3xl mx-auto mb-3">
+        <i class="fa-solid fa-trophy"></i>
+      </div>
+      <h2 id="results-title" class="font-display font-bold text-2xl text-white mb-1">Tantangan Selesai!</h2>
+      <p id="results-subtitle" class="text-xs text-slate-300 mb-4">Kamu berhasil menaklukkan seluruh rintangan!</p>
+
+      <div class="grid grid-cols-3 gap-2 mb-5 text-xs">
+        <div class="p-3 rounded-xl bg-slate-900 border border-white/10">
+          <div class="text-slate-400">Waktu</div>
+          <div id="results-time" class="font-mono font-bold text-base text-white mt-0.5">00:42.1</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900 border border-white/10">
+          <div class="text-slate-400">Jatuh</div>
+          <div id="results-deaths" class="font-display font-bold text-base text-bvCoral mt-0.5">1</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-900 border border-white/10">
+          <div class="text-slate-400">Hadiah</div>
+          <div id="results-reward" class="font-display font-bold text-base text-bvSun mt-0.5">+50 ★</div>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button id="btn-results-replay" class="bv-btn flex-1 py-2.5 rounded-xl bg-bvSun text-bvNavy font-display font-bold text-sm">
+          Main Lagi
+        </button>
+        <button id="btn-results-hub" class="bv-btn flex-1 py-2.5 rounded-xl bg-bvSky text-bvNavy font-display font-bold text-sm">
+          Kembali ke Hub
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JSON EXPORT / IMPORT MODAL (P1 Builder Feature) ================= -->
+  <div id="modal-json" class="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-xl w-full p-6 border-2 border-bvSky/40">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-display font-bold text-xl text-white">Ekspor / Impor JSON Dunia (Tervalidasi Skema)</h2>
+        <button data-close-modal="modal-json" class="bv-btn w-8 h-8 rounded-lg bg-slate-800 text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="text-xs text-slate-300 mb-2">Format JSON divalidasi secara ketat (tipe objek yang diizinkan, batas koordinat, tanpa eksekusi kode).</p>
+      <textarea id="builder-json-textarea" rows="8" class="w-full p-3 rounded-xl bg-slate-950 border border-slate-700 font-mono text-[11px] text-bvSky mb-3"></textarea>
+      <div id="builder-json-error" class="text-xs text-bvCoral mb-2 hidden"></div>
+      <div class="flex justify-end gap-2">
+        <button id="btn-json-import" class="bv-btn px-4 py-2 rounded-xl bg-bvGrass text-bvNavy font-bold text-xs">Validasi & Muat JSON</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= QA AUTOMATED TEST SUITE MODAL ================= -->
+  <div id="modal-qa" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-3xl w-full p-6 border-2 border-bvSun/50 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="font-display font-bold text-2xl text-white">BLOCKVERSE Automated Verification Suite</h2>
+          <p class="text-xs text-slate-300">Pemeriksaan lokal di browser saja, bukan pengujian keamanan server atau multiplayer lintas perangkat.</p>
+        </div>
+        <button data-close-modal="modal-qa" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/90 border border-white/10 mb-4 text-xs">
+        <div id="qa-summary-text" class="font-bold text-bvGrass">Siap menjalankan 14 pengujian otomatis...</div>
+        <button id="btn-run-tests-now" class="bv-btn px-4 py-1.5 rounded-lg bg-bvSun text-bvNavy font-bold">
+          <i class="fa-solid fa-rotate mr-1"></i>Jalankan Ulang Semua Test
+        </button>
+      </div>
+
+      <div id="qa-results-list" class="space-y-2 text-xs font-mono"></div>
+    </div>
+  </div>
+
+  <!-- ================= PRD DOCS / RUNBOOK / ARCHITECTURE MODAL ================= -->
+  <div id="modal-docs" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bv-panel max-w-4xl w-full p-6 border-2 border-bvSky/50 max-h-[90vh] overflow-y-auto text-xs leading-relaxed">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="font-display font-bold text-2xl text-white">Dokumentasi Proyek: TASKS, DECISIONS, ROADMAP & QA_REPORT</h2>
+          <p class="text-slate-300">Ringkasan arsitektur, kontrak data, dan status verifikasi P0/P1 sesuai spesifikasi PRD.</p>
+        </div>
+        <button data-close-modal="modal-docs" class="bv-btn w-9 h-9 rounded-xl bg-slate-800 text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-200">
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-white/10">
+          <h3 class="font-display font-bold text-sm text-bvSky mb-2">1. TASKS.md (Status P0 & P1)</h3>
+          <ul class="space-y-1">
+            <li>✅ [P0] Boot flow, Home menu, Pause/Settings, Audio synthesizer, Error recovery</li>
+            <li>✅ [P0] Sunrise Plaza 3D Hub + Air Mancur Kristal + 3 Portal Interaktif</li>
+            <li>✅ [P0] Karakter Blocky 3D + Fisika AABB/Ramp + Kamera Orbit + Respawn</li>
+            <li>✅ [P0] Sky Obby: 15 Rintangan di 3 Bagian, 3 Checkpoint, Hazard, Timer & PB</li>
+            <li>✅ [P0] Builder Island: 8 Objek, Raycast Ghost, Transform, Cat, Undo/Redo, Test Mode</li>
+            <li>✅ [P0] Persistensi: Revisi Dunia, Otorisasi Pemilik, Penyimpanan Cloud/IndexedDB</li>
+            <li>✅ [P0] Multiplayer: Sinkronisasi Ruangan Real-Time (Firestore + BroadcastChannel)</li>
+            <li>✅ [P0] Editor Avatar: 6+2 Warna, 4 Aksesori Prosedural, Quick-Chat Aman</li>
+            <li>✅ [P1] Kontrol Sentuh Mobile (Joystick + Tombol) & Mini-Game Coin Dash</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-white/10">
+          <h3 class="font-display font-bold text-sm text-bvSun mb-2">2. DECISIONS.md (Keputusan Teknis)</h3>
+          <ul class="space-y-1.5">
+            <li><strong>Mesin 3D & Fisika:</strong> Three.js dengan simulasi fisika di browser. Performa dan collision perlu diuji pada perangkat nyata.</li>
+            <li><strong>Multiplayer:</strong> BroadcastChannel untuk tab lokal, Firestore untuk perangkat terpisah jika diaktifkan. Batas 16 pemain belum ditegakkan server-side.</li>
+            <li><strong>Keamanan Konten (Child-Safety):</strong> Tanpa chat bebas; hanya kode Quick-Chat terverifikasi. Skema dunia memvalidasi batas koordinat (<code>-120..120</code>), skala (<code>0.5..20</code>), dan kuota (<code>&lt;=300</code>).</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-white/10">
+          <h3 class="font-display font-bold text-sm text-bvCyan mb-2">3. ROADMAP.md (Batas P2 Backlog)</h3>
+          <p class="mb-2">Fitur P2 berikut sengaja tidak diklaim di MVP sesuai kontrak PRD:</p>
+          <ul class="list-disc list-inside space-y-1 text-slate-300">
+            <li>Eksekusi skrip Lua / kode pengguna di dalam dunia.</li>
+            <li>Marketplace berbayar atau mata uang kripto.</li>
+            <li>Voice chat & unggah tekstur bebas tanpa moderasi manusia.</li>
+            <li>Simulasi fisika penuh di sisi server untuk anti-cheat tingkat turnamen.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-white/10">
+          <h3 class="font-display font-bold text-sm text-bvGrass mb-2">4. Skema Validasi & Keamanan</h3>
+          <p class="mb-2">World cloud dibatasi Security Rules dan revision transaction; hadiah Obby masih DEMO lokal:</p>
+          <ul class="list-disc list-inside space-y-1 text-slate-300">
+            <li>Firestore membatasi operasi world hanya pada pemilik Firebase UID, bukan REST endpoint hipotetis.</li>
+            <li>Cek nomor revisi (<code>409 Conflict</code> jika revisi usang).</li>
+            <li>Checkpoint Obby hanya dicek sisi client dan belum aman untuk reward publik/kompetisi.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
+  <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ================= APPLICATION LOGIC (MODULE) ================= -->
+  <script type="module" src="/src/game.js"></script>
+</body>
+</html>
