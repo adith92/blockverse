@@ -9,17 +9,17 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
-      # No lockfile exported by Gemini; install (not ci) pending first online lock generation.
+          node-version: '24'
+      # Exact top-level versions are pinned; install until lockfile has been generated and reviewed.
       - run: npm install --no-fund
       - run: npm run test:unit
       - run: npm run build
       - run: node --test server/tests/validation.test.mjs
       - run: npm audit --omit=dev --audit-level=high
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: blockverse-dist
           path: dist/
@@ -28,14 +28,14 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
       - run: npm install --no-fund
       - run: npm run test:rules:emulator
 
@@ -47,10 +47,10 @@ jobs:
       run:
         working-directory: server
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
       - run: npm install --no-audit --no-fund
       - run: npm test
       - run: npm audit --omit=dev --audit-level=high
