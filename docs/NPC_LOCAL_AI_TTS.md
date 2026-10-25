@@ -98,3 +98,10 @@ docker compose exec ollama ollama pull qwen3:4b
 docker compose --profile ai up -d --force-recreate multiplayer
 ```
 **Do not run this on Render Free** without capacity checks. Ollama has no public published port in this Compose stack. The Docker build bundles frontend, WebSocket and NPC API into one service. Piper voice in Docker requires a separate compatible installation, container runtime or a later reviewed IPC integration; for now use direct VPS host installation for TTS. Never enable `NPC_TTS_ENABLED=1` on an image lacking Piper and voice models.
+
+## 🇮🇩 Model Piper Bahasa Indonesia yang berhasil ditemukan (referensi)
+Katalog `rhasspy/piper-voices` menyediakan **`id_ID-news_tts-medium`** (Bahasa Indonesia, 1 pembicara, model ONNX sekitar 63 MB):
+- [Direktori model ONNX + konfigurasi](https://huggingface.co/rhasspy/piper-voices/tree/main/id/id_ID/news_tts/medium)
+- [Model Card sumber dan lisensi](https://huggingface.co/rhasspy/piper-voices/blob/main/id/id_ID/news_tts/medium/MODEL_CARD)
+
+Ini **bukan suara anak kecil**. Jika dipakai, model ini hanya contoh pembuktian alur TTS berbahasa Indonesia. Jangan klaim karakter sudah bersuara anak kecil, jangan langsung merilis suara ke publik sebelum mendengarkan sampelnya dan meninjau lisensi serta izin dataset (model card menyebut asal pelatihan yang perlu diperiksa). Gunakan model sintetis berkarakter muda yang sah dan terbukti cocok Bahasa Indonesia untuk art pass suara berikutnya. **Belum ada model ONNX yang diunduh atau diaktifkan pada server live oleh pekerjaan ini.**
