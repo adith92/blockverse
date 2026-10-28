@@ -2,7 +2,7 @@
   "name": "blockverse",
   "version": "2.0.0-alpha.1",
   "private": true,
-  "description": "BLOCKVERSE original 3D browser sandbox; cloud persistence with strict Firestore rules",
+  "description": "BLOCKVERSE 3D browser sandbox; optional Supabase Auth and owner-protected cloud saves, plus WebSocket multiplayer",
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
@@ -11,23 +11,22 @@
     "test": "npm run test:unit",
     "check": "npm run test && npm run build",
     "zip": "node scripts/create-zip.mjs",
-    "test:unit": "node --test tests/schema.test.mjs tests/integrity.test.mjs tests/cengkareng-assets.test.mjs",
-    "test:rules:emulator": "firebase emulators:exec --project blockverse-ci --only firestore \"node --test tests/firestore-emulator.test.mjs\"",
+    "test:unit": "node --test tests/schema.test.mjs tests/integrity.test.mjs tests/cengkareng-assets.test.mjs tests/supabase-migration.test.mjs",
+    "test:rules:emulator": "node --test tests/supabase-migration.test.mjs",
     "start": "node server/server.mjs",
     "test:multiplayer": "cd server && npm test",
-    "dev:unified": "npm run build && npm start"
+    "dev:unified": "npm run build && npm start",
+    "test:supabase": "node --test tests/supabase-migration.test.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "7.3.1",
-    "firebase": "13.0.0",
-    "three": "0.186.1"
+    "three": "0.186.1",
+    "@supabase/supabase-js": "2.118.0"
   },
   "devDependencies": {
     "vite": "8.3.5",
     "tailwindcss": "4.3.3",
-    "@tailwindcss/vite": "4.3.3",
-    "@firebase/rules-unit-testing": "6.0.0",
-    "firebase-tools": "15.34.1"
+    "@tailwindcss/vite": "4.3.3"
   },
   "engines": {
     "node": ">=22.12.0"
