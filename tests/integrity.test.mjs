@@ -23,22 +23,25 @@ test('source contains all four worlds and actual obstacle course markers',()=>{
  assert.match(obby,/checkpointIdx: 2/);
  assert.match(obby,/isFinish: true/);
 });
-test('world writes use Firestore transaction and do not silently report cloud success',()=>{
+test('Supabase replaces Firebase while local mode and WebSockets are intact',()=>{
  const js=read('src/game.js');
- assert.match(js,/await runTransaction\(this\.db/);
- assert.match(js,/Cloud save failed:/);
- assert.match(js,/tx\.set\(worldRef/);
+ assert.match(js,/createClient\(/);
+ assert.match(js,/signInAnonymously\(/);
+ assert.match(js,/this\.supabase\.rpc\('bv_save_world'/);
+ assert.match(js,/this\.idbSet\('builder_world'/);
+ assert.doesNotMatch(js,/firebase\/app|firebase\/firestore|runTransaction\(/);
+ assert.match(js,/connectVpsServer\(/);
 });
-test('server security rules prohibit client-edited reward data',()=>{
- const rules=read('firestore.rules');
- assert.match(rules,/request\.auth\.uid == userId/);
- assert.match(rules,/p\.keys\(\)\.hasOnly\(\['displayName','avatar'\]\)/);
- assert.match(rules,/playerId == request\.auth\.uid/);
- assert.match(rules,/request\.resource\.data\.revision == resource\.data\.revision \+ 1/);
- assert.match(rules,/allow read, write: if false/);
+test('SQL schema enables owner-only RLS and server-side revision checking',()=>{
+ const sql=read('supabase/preview_blockverse_schema.sql');
+ for(const table of ['bv_profiles','bv_worlds'])assert.match(sql,new RegExp('alter table public\\.'+table+' enable row level security'));
+ assert.match(sql,/auth\.uid\(\)/);
+ assert.match(sql,/security invoker/);
+ assert.match(sql,/revision=p_expected_revision/);
+ assert.doesNotMatch(sql,/drop table/i);
 });
 test('no production secrets or duplicate bundle in project HTML',()=>{
- for(const file of ['index.html','src/game.js','vite.config.js','firestore.rules','vercel.json']) {
+ for(const file of ['index.html','src/game.js','vite.config.js','supabase/preview_blockverse_schema.sql','vercel.json']) {
   const body=read(file);
   assert.doesNotMatch(body,/-----BEGIN PRIVATE KEY-----|service_account\.json/);
  }

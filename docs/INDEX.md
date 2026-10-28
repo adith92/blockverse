@@ -5,6 +5,7 @@ Semua konten **untuk dibaca manusia** berada di folder `docs/`; root hanya beris
 | Dokumen | Isi |
 |---|---|
 | [README.md](README.md) | 🎮 Panduan pemain, 3D, gameplay, galeri |
+| [SUPABASE_MIGRATION_PLAN.md](SUPABASE_MIGRATION_PLAN.md) | 🗄️ Rencana migrasi aman Firebase ke Supabase |
 | [NPC_LOCAL_AI_TTS.md](NPC_LOCAL_AI_TTS.md) | 👩‍🏫 13 guru virtual, Ollama LLM, Piper WAV TTS, konfigurasi VPS |
 | [NPC_SAFETY.md](NPC_SAFETY.md) | 🛡️ Keselamatan, privasi anak, moderation dan batasan |
 | [UPGRADE_ROADMAP.md](UPGRADE_ROADMAP.md) | 🧩 Ide upgrade berikutnya dan prioritas |

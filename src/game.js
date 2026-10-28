@@ -1,9 +1,7 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously, signInWithCustomToken } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, deleteDoc, runTransaction } from 'firebase/firestore';
+import { createClient } from '@supabase/supabase-js';
 import { Validator, MAX_WORLD_OBJECTS, ALLOWED_OBJECT_TYPES, ALLOWED_ACCESSORIES, escapeHtml } from './schema.mjs';
 import './styles.css';
 import './mobile.css';
@@ -13,9 +11,10 @@ import { NpcSchool } from './npc/client.js';
 
 // VITE_ variables are PUBLIC configuration, NEVER backend secrets.
 const __app_id = import.meta.env.VITE_APP_ID || 'blockverse-mvp-app';
-const __firebase_config = import.meta.env.VITE_FIREBASE_CONFIG || null;
+const __supabase_url = import.meta.env.VITE_SUPABASE_URL || '';
+const __supabase_key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
 const __vps_multiplayer_url = import.meta.env.VITE_MULTIPLAYER_URL || (import.meta.env.PROD ? `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/ws` : '');
-const __initial_auth_token = null; // Never bundle privileged/custom Firebase auth tokens.
+// No personal access token, service role or secret may be embedded in VITE_ variables.
 
 /********************************************************************
      * 1. CONSTANTS, PALETTES, LOCALIZATION & SHARED SCHEMAS
@@ -188,7 +187,8 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         this.db = null;
         this.IntDB = null;
         this.cloudReady = false;
-        this.firebaseUser = null;
+        this.supabaseUser = null;
+        this.supabase = null;
         this.appId = typeof __app_id !== 'undefined' ? __app_id : 'blockverse-mvp-app';
         this.session = {
           playerId: 'plr_' + crypto.randomUUID().slice(0, 8),
@@ -222,7 +222,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       async init() {
         await this.initIndexedDB();
         await this.loadFromIndexedDB();
-        await this.initFirebaseCloud();
+        await this.initSupabaseCloud();
       }
 
       initIndexedDB() {
@@ -292,63 +292,52 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
         }
       }
 
-      async initFirebaseCloud() {
+      async initSupabaseCloud() {
+        if (!__supabase_url || !__supabase_key) return;
+        if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(__supabase_url) || !/^sb_publishable_[a-zA-Z0-9_-]+$/.test(__supabase_key)) return;
         try {
-          if (typeof __firebase_config === 'undefined' || !__firebase_config) return;
-          const config = JSON.parse(__firebase_config);
-          const app = initializeApp(config);
-          const auth = getAuth(app);
-          this.db = getFirestore(app);
-
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-            await signInWithCustomToken(auth, __initial_auth_token);
-          } else {
-            await signInAnonymously(auth);
+          this.supabase = createClient(__supabase_url,__supabase_key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+          const state=await this.supabase.auth.getUser();
+          let user=state.data?.user;
+          if(!user) {
+            const signed=await this.supabase.auth.signInAnonymously();
+            if(signed.error)throw signed.error;
+            user=signed.data.user;
           }
-
-          const user = auth.currentUser;
-          if (!user) throw new Error('Firebase sign-in completed without a user');
-          this.firebaseUser = user;
-          this.cloudReady = true;
-          this.session.playerId = user.uid;
-          this.myWorld.ownerPlayerId = user.uid;
+          if(!user?.id)return;
+          this.supabaseUser=user;this.cloudReady=true;
+          this.session.playerId=user.id;this.myWorld.ownerPlayerId=user.id;
           await this.syncProfileWithCloud();
-        } catch (_) {
-          this.cloudReady = false;
+        }catch(error){
+          this.cloudReady=false;
+          console.warn('Supabase unavailable, offline saves retained:',error?.message);
         }
       }
-
       async syncProfileWithCloud() {
-        if (!this.cloudReady || !this.firebaseUser || !this.db) return;
+        if(!this.cloudReady||!this.supabaseUser)return;
         try {
-          const profRef = doc(this.db, 'artifacts', this.appId, 'users', this.firebaseUser.uid, 'profile', 'main');
-          const snap = await getDoc(profRef);
-          if (snap.exists()) {
-            const data = snap.data();
-            if (typeof data.displayName === 'string') this.session.displayName = Validator.sanitizeDisplayName(data.displayName);
-            if (Validator.validateAvatar(data.avatar).ok) this.session.avatar = data.avatar;
-            await this.idbSet('player_profile', this.session);
-          } else {
-            await setDoc(profRef, this.getCloudProfile());
+          const uid=this.supabaseUser.id;
+          const result=await this.supabase.from('bv_profiles').select('display_name,avatar').eq('user_id',uid).maybeSingle();
+          if(result.error)throw result.error;
+          if(result.data) {
+            if(typeof result.data.display_name==='string')this.session.displayName=Validator.sanitizeDisplayName(result.data.display_name);
+            if(Validator.validateAvatar(result.data.avatar).ok)this.session.avatar=result.data.avatar;
+            await this.idbSet('player_profile',this.session);
+          }else {
+            const save=await this.supabase.from('bv_profiles').upsert({user_id:uid,display_name:Validator.sanitizeDisplayName(this.session.displayName),avatar:this.session.avatar},{onConflict:'user_id'});
+            if(save.error)throw save.error;
           }
-
-          const worldRef = doc(this.db, 'artifacts', this.appId, 'users', this.firebaseUser.uid, 'worlds', 'my_island');
-          const wSnap = await getDoc(worldRef);
-          if (wSnap.exists()) {
-            const wData = wSnap.data();
-            if (wData.objectsJson) {
-              const cloudObjects = JSON.parse(wData.objectsJson);
-              const checked = Validator.validateWorldPayload({ revision: wData.revision, objects: cloudObjects }, null, this.session.playerId);
-              if (checked.ok && wData.ownerPlayerId === this.firebaseUser.uid) {
-                this.myWorld = { ...wData, objects: cloudObjects, ownerPlayerId: this.session.playerId };
-                await this.idbSet('builder_world', this.myWorld);
-              }
+          const w=await this.supabase.from('bv_worlds').select('id,title,visibility,revision,objects,updated_at').eq('user_id',uid).eq('world_key','my_island').maybeSingle();
+          if(w.error)throw w.error;
+          if(w.data){
+            const row=w.data,validated=Validator.validateWorldPayload({revision:row.revision,objects:row.objects},null,uid);
+            if(validated.ok){
+              this.myWorld={id:row.id,ownerPlayerId:uid,title:row.title,visibility:row.visibility,revision:row.revision,objects:row.objects,updatedAt:row.updated_at};
+              await this.idbSet('builder_world',this.myWorld);
             }
           }
           updateAllMenusUI();
-        } catch (_) {
-          // Fallback to IndexedDB seamlessly
-        }
+        }catch(error){console.warn('Cloud sync skipped; offline world preserved:',error?.message);}
       }
 
       getCloudProfile() {
@@ -356,61 +345,39 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
       }
 
       async saveProfile() {
-        await this.idbSet('player_profile', this.session);
-        if (this.cloudReady && this.firebaseUser && this.db) {
-          try {
-            const profRef = doc(this.db, 'artifacts', this.appId, 'users', this.firebaseUser.uid, 'profile', 'main');
-            await setDoc(profRef, this.getCloudProfile());
-          } catch (error) {
-            return { ok: false, localSaved: true, cloudSaved: false, error: error.message };
-          }
-          return { ok: true, localSaved: true, cloudSaved: true };
+        await this.idbSet('player_profile',this.session);
+        if(this.cloudReady&&this.supabaseUser){
+          try{
+            const saved=await this.supabase.from('bv_profiles').upsert({
+              user_id:this.supabaseUser.id,display_name:Validator.sanitizeDisplayName(this.session.displayName),avatar:this.session.avatar
+            },{onConflict:'user_id'});
+            if(saved.error)throw saved.error;
+            return {ok:true,localSaved:true,cloudSaved:true};
+          }catch(error){return {ok:false,localSaved:true,cloudSaved:false,error:error.message};}
         }
-        return { ok: true, localSaved: true, cloudSaved: false };
+        return {ok:true,localSaved:true,cloudSaved:false};
       }
-
-      // Schema-checked local save; cloud writes use atomic Firestore revision checks.
-      // The client does not act as an authoritative game server.
-      async saveWorld(payload, callerPlayerId = this.session.playerId) {
-        const validation = Validator.validateWorldPayload(payload, this.myWorld, callerPlayerId);
-        if (!validation.ok) return validation;
-        const next = {
-          ...this.myWorld,
-          title: (payload.title || 'My Builder Island').trim().slice(0, 40),
-          visibility: payload.visibility === 'unlisted' ? 'unlisted' : 'private',
-          revision: this.myWorld.revision + 1,
-          objects: JSON.parse(JSON.stringify(payload.objects)),
-          updatedAt: new Date().toISOString()
-        };
-        if (this.cloudReady && this.firebaseUser && this.db) {
-          const worldRef = doc(this.db, 'artifacts', this.appId, 'users', this.firebaseUser.uid, 'worlds', 'my_island');
-          try {
-            await runTransaction(this.db, async (tx) => {
-              const snap = await tx.get(worldRef);
-              if (snap.exists() && snap.data().revision !== payload.revision) {
-                throw new Error('409: World changed in another tab. Reload before saving.');
-              }
-              if (!snap.exists() && payload.revision !== 1) {
-                throw new Error('409: Expected first world revision');
-              }
-              tx.set(worldRef, {
-                id: next.id,
-                ownerPlayerId: this.firebaseUser.uid,
-                title: next.title,
-                visibility: next.visibility,
-                revision: next.revision,
-                objectsJson: JSON.stringify(next.objects),
-                updatedAt: next.updatedAt
-              });
+      async saveWorld(payload,callerPlayerId=this.session.playerId){
+        const validation=Validator.validateWorldPayload(payload,this.myWorld,callerPlayerId);
+        if(!validation.ok)return validation;
+        const next={...this.myWorld,title:(payload.title||'My Builder Island').trim().slice(0,40),
+          visibility:payload.visibility==='unlisted'?'unlisted':'private',revision:this.myWorld.revision+1,
+          objects:JSON.parse(JSON.stringify(payload.objects)),updatedAt:new Date().toISOString()};
+        if(this.cloudReady&&this.supabaseUser){
+          try{
+            const out=await this.supabase.rpc('bv_save_world',{
+              p_world_key:'my_island',p_expected_revision:payload.revision,
+              p_title:next.title,p_visibility:next.visibility,p_objects:next.objects
             });
-          } catch (error) {
-            return { ok: false, status: /409/.test(error.message) ? 409 : 503, error: `Cloud save failed: ${error.message}` };
-          }
+            if(out.error)throw out.error;
+            if(!out.data?.ok)return {status:409,ok:false,error:'World changed in another tab. Reload before saving.'};
+            next.revision=out.data.revision;
+          }catch(error){return {status:503,ok:false,error:'Cloud save failed: '+error.message};}
         }
-        this.myWorld = next;
-        await this.idbSet('builder_world', next);
+        this.myWorld=next;
+        await this.idbSet('builder_world',next);
         await this.unlockAchievement('WORLD_BUILDER');
-        return { status: 200, ok: true, world: this.myWorld };
+        return {status:200,ok:true,world:this.myWorld};
       }
 
       // Local DEMO Obby Attempt Lifecycle: not authoritative for public rewards
@@ -617,33 +584,6 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
           player: this.buildSelfSnapshot([0, 2, 16], 0)
         });
 
-        // Subscribe to Cloud Firestore room presence if cloud is ready
-        if (backend.cloudReady && backend.firebaseUser && backend.db) {
-          try {
-            const colRef = collection(backend.db, 'artifacts', backend.appId, 'public', 'data', 'room_presence');
-            this.firestoreUnsub = onSnapshot(colRef, (snap) => {
-              this.cloudPresenceConnected = true;
-              this.cloudPresenceError = null;
-              snap.docChanges().forEach((change) => {
-                const d = change.doc.data();
-                if (!d || d.playerId === backend.session.playerId || !Validator.validatePlayerMovePacket(d)) return;
-                if (change.type === 'removed' || d.roomKey !== this.getFullRoomKey()) {
-                  this.removeRemotePlayer(d.playerId);
-                } else {
-                  this.upsertRemotePlayer(d);
-                }
-              });
-              this.updateNetworkHUD();
-            }, (error) => {
-              this.cloudPresenceError = error.message;
-              this.cloudPresenceConnected = false;
-              this.updateNetworkHUD();
-            });
-          } catch (error) {
-            this.cloudPresenceError = error.message;
-          }
-        }
-
         this.updateNetworkHUD();
       }
 
@@ -657,16 +597,6 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
           roomKey: this.getFullRoomKey(),
           playerId: backend.session.playerId
         });
-        if (this.firestoreUnsub) {
-          this.firestoreUnsub();
-          this.firestoreUnsub = null;
-        }
-        if (backend.cloudReady && backend.firebaseUser && backend.db) {
-          try {
-            const pDoc = doc(backend.db, 'artifacts', backend.appId, 'public', 'data', 'room_presence', backend.firebaseUser.uid);
-            deleteDoc(pDoc).catch(() => {});
-          } catch (_) {}
-        }
         this.clearRemoteMeshes();
       }
 
@@ -708,14 +638,7 @@ const __initial_auth_token = null; // Never bundle privileged/custom Firebase au
           player: snap
         });
 
-        // Periodic cloud presence heartbeat (every 1.5s if cloud active to respect rate limits)
-        if (backend.cloudReady && backend.firebaseUser && backend.db && (!this.lastCloudSync || now - this.lastCloudSync > 1500)) {
-          this.lastCloudSync = now;
-          try {
-            const pDoc = doc(backend.db, 'artifacts', backend.appId, 'public', 'data', 'room_presence', backend.firebaseUser.uid);
-            setDoc(pDoc, snap).catch(() => {});
-          } catch (_) {}
-        }
+
       }
 
       sendEmote(code) {
