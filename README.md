@@ -1,4 +1,4 @@
-# 🌈 BLOCKVERSE
+#  BLOCKVERSE
 
 **Petualangan 3D untuk anak dan keluarga:** 12 distrik Cengkareng, 125 asset 3D, multiplayer, dan 13 karakter guru virtual.
 
